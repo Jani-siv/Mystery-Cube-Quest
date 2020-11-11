@@ -8,7 +8,7 @@ int main()
 {
 	pelinTiedot peli;
 	peli.alustaAika(100);
-
+	std::cout << peli.peliAika;
 	return 0;
 }
 
