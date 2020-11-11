@@ -13,4 +13,3 @@ class pelinTiedot
                 int tarkistaAika();
 };
 #endif
-

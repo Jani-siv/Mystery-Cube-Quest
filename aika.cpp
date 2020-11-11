@@ -30,4 +30,3 @@ void pelinTiedot::paivitaAika(int maara)
         aika = aika - maara;
         peliAika = aika;
 }
-
