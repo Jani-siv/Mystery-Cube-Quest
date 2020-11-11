@@ -1,25 +1,25 @@
 //library for time functions for arduino
 // c Jani Sivonen
 //setting time for game
-void alustaAika(int maara);
+void pelinTiedot*::alustaAika(int maara);
 //decrease time if player make error
-int vahennaAika(int maara);
+int pelinTiedot::vahennaAika(int maara);
 //update time in lcd screen
-void paivitaAika(int maara);
+void pelinTiedot::paivitaAika(int maara);
 // check how much time is left in game
-int tarkistaAika();
+int pelinTiedot::tarkistaAika();
 
-void alustaAika(int maara)			//time set in seconds
+void pelinTiedot*::alustaAika(int maara)			//time set in seconds
 {
 	peliAika = maara;
 }
 
-int vahennaAika(int maara)
+int pelinTiedot::vahennaAika(int maara)
 {
 	if (maara > peliAika)
 	{
 		peliAika = peliAika - maara;
-		return 1;			//return succesfull 1
+		return 1;			//return succesfull 
 	}
 	else
 	{
@@ -29,12 +29,12 @@ int vahennaAika(int maara)
 	}
 }
 
-int tarkistaAika()
+int pelinTiedot::tarkistaAika()
 {
 		return peliAika;
 }
 
-void paivitaAika(int maara)
+void pelinTiedot::paivitaAika(int maara)
 {
 	int aika = tarkistaAika();
 	aika = aika - maara;
