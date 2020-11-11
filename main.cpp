@@ -6,12 +6,10 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-#include <iostream>
 int main()
 {
 	pelinTiedot peli;
 	peli.alustaAika(100);
-	std::cout << peli.peliAika;
 	return 0;
 }
 

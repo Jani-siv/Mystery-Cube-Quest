@@ -19,7 +19,7 @@ class LCD
 	void resetShiftRegister();				//reset shift register
 	void dataToLCD(int command);				//send data and set pin
 
-}
+};
 #endif
 
 

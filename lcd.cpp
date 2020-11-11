@@ -1,5 +1,4 @@
 #include "lcd.h"
-#include "arduino.h"
 
 void LCD::resetShiftRegister()
 {

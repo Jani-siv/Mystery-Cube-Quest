@@ -2,11 +2,10 @@
 #define AIKA_H
 class pelinTiedot
 {
-        public:
+		public:
                 int peliAika;
                 int lukot;
-                int gameOver = 0;
-        
+                int gameOver;
                 void alustaAika(int maara);
                 int vahennaAika(int maara); 
                 void paivitaAika(int maara);
