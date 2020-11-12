@@ -1,26 +1,11 @@
 #include "lcd.h"
-
+#include <Arduino.h>
 void LCD::resetShiftRegister()
 {
   digitalWrite(resetPin,LOW);
   delay(10);
   digitalWrite(dataShift2,LOW);
   digitalWrite(resetPin,HIGH);
-}
-void LCD::LCD_init()
-{
-  delay(1000);
-  unsigned int init_table[7] = {0x30,0x30,0x30,0x38,0x08,0x01,0x06};
-
-  Serial.print("INIT LCD\n");
-  digitalWrite(rsPin,LOW);
-  for (int i = 0; i < sizeof(init_table); i++)
-  {
-  LCD_SendData(init_table[i],0);
-  delay(100);
-}
-  Serial.print("INIT DONE\n");
-  digitalWrite(rsPin,LOW);
 }
 
 void LCD::sendData(unsigned int information, int command)
@@ -53,6 +38,22 @@ void LCD::sendData(unsigned int information, int command)
 		}
 	LCD::dataToLCD(command);
 
+}
+
+void LCD::LCD_init()
+{
+  delay(1000);
+  unsigned int init_table[7] = {0x30,0x30,0x30,0x38,0x08,0x01,0x06};
+
+  Serial.print("INIT LCD\n");
+  digitalWrite(rsPin,LOW);
+  for (int i = 0; i < sizeof(init_table); i++)
+  {
+	  LCD::sendData(init_table[i],0);
+  delay(100);
+}
+  Serial.print("INIT DONE\n");
+  digitalWrite(rsPin,LOW);
 }
 
 void LCD::dataToLCD(int command)
