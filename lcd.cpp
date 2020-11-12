@@ -2,10 +2,10 @@
 #include <Arduino.h>
 void LCD::resetShiftRegister()
 {
-  digitalWrite(resetPin,LOW);
+  digitalWrite(LCD::resetPin,LOW);
   delay(10);
-  digitalWrite(dataShift2,LOW);
-  digitalWrite(resetPin,HIGH);
+  digitalWrite(LCD::dataShift2,LOW);
+  digitalWrite(LCD::resetPin,HIGH);
 }
 
 void LCD::sendData(unsigned int information, int command)
@@ -22,53 +22,55 @@ void LCD::sendData(unsigned int information, int command)
 		}
 	for (int k = 8; k >= 0; k--)
 		{
-			digitalWrite(dataShift2, HIGH);
-			digitalWrite(clockPin, LOW);
+			digitalWrite(LCD::dataShift2, HIGH);
+			digitalWrite(LCD::clockPin, LOW);
 
 			if (bitTable[k] & 1)
 				{
-				digitalWrite(dataShift1,HIGH);
+				digitalWrite(LCD::dataShift1,HIGH);
 				}
 			else
 				{
-				digitalWrite(dataShift1,LOW);
+				digitalWrite(LCD::dataShift1,LOW);
 				}
 		
-			digitalWrite(clockPin, HIGH);
+			digitalWrite(LCD::clockPin, HIGH);
 		}
 	LCD::dataToLCD(command);
 
 }
 
-void LCD::LCD_init()
+void LCD::lcd_init()
 {
   delay(1000);
   unsigned int init_table[7] = {0x30,0x30,0x30,0x38,0x08,0x01,0x06};
 
   Serial.print("INIT LCD\n");
-  digitalWrite(rsPin,LOW);
-  for (int i = 0; i < sizeof(init_table); i++)
+  digitalWrite(LCD::rsPin,LOW);
+  for (int i = 0; i < 7; i++)
   {
 	  LCD::sendData(init_table[i],0);
   delay(100);
 }
   Serial.print("INIT DONE\n");
-  digitalWrite(rsPin,LOW);
+  digitalWrite(LCD::rsPin,LOW);
+  //init done
+  LCD::reset = 1;
 }
 
 void LCD::dataToLCD(int command)
 {
-	digitalWrite(enablePin, HIGH);
+	digitalWrite(LCD::enablePin, HIGH);
 	delay(10);
 		if (command != 0)
 			{
-  			digitalWrite(rsPin,HIGH);
+  			digitalWrite(LCD::rsPin,HIGH);
 			}
 		if (command == 0)
 			{
-  			digitalWrite(rsPin,LOW);
+  			digitalWrite(LCD::rsPin,LOW);
 			}
 	delay(10);
-	digitalWrite(enablePin, LOW);
-	digitalWrite(rsPin,LOW);
+	digitalWrite(LCD::enablePin, LOW);
+	digitalWrite(LCD::rsPin,LOW);
 }

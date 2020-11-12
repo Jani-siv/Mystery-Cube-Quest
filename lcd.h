@@ -6,7 +6,7 @@ class LCD
 	//reset first entry
 	public:
 	int reset 	=	0;
-	void LCD_init();					//init lcd display
+	void lcd_init();					//init lcd display
 	void sendData(unsigned int information, int command);	//sending command to LCD 1 to display 0 is command
 	private:
 	int clockPin 	= 	2;                 

@@ -11,10 +11,20 @@ aika.cpp + aika.h is for time management in project
 main.cpp is this moment only for testing valid c++ language in files
 
 inside .ino file is:
-#include "aika.h"
 #include "lcd.h"
-#include <Arduino.h>
 
-void setup() { }
-void loop() {}
+void setup() {
+  // put your setup code here, to run once:
+Serial.begin(9600);
+}
 
+void loop() {
+ LCD testi;
+ 
+ if (testi.reset == 0)
+  {
+  testi.lcd_init();
+  }
+// put your main code here, to run repeatedly:
+
+}
