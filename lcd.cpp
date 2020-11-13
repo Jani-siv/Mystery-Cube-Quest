@@ -12,6 +12,7 @@ void LCD::sendData(unsigned int information, int command)
 {
 	unsigned int result;
 	unsigned int bitTable[8];
+	unsigned int temp;
 	//setting shiftRegister and clock pulse
 	resetShiftRegister();
 
@@ -49,16 +50,16 @@ for (int i = 8; i >= 0; i--)
 
 void LCD::lcd_init()
 {
+  digitalWrite(LCD::enablePin, LOW);
   delay(1000);
-  unsigned int init_table[7] = {0x30,0x30,0x30,0x38,0x08,0x01,0x06};
-
+  unsigned int init_table[6] = {0x30,0x30,0x30,0x38,0x0D,0x06};
   Serial.print("INIT LCD\n");
   digitalWrite(LCD::rsPin,LOW);
-  for (int i = 0; i < 7; i++)
+  for (int i = 0; i < 6; i++)
   {
 	  LCD::sendData(init_table[i],0);
-  delay(100);
 }
+
   Serial.print("INIT DONE\n");
   digitalWrite(LCD::rsPin,LOW);
   //init done
@@ -67,8 +68,7 @@ void LCD::lcd_init()
 
 void LCD::dataToLCD(int command)
 {
-	digitalWrite(LCD::enablePin, HIGH);
-	delay(10);
+
 		if (command != 0)
 			{
   			digitalWrite(LCD::rsPin,HIGH);
@@ -77,7 +77,9 @@ void LCD::dataToLCD(int command)
 			{
   			digitalWrite(LCD::rsPin,LOW);
 			}
+	digitalWrite(LCD::enablePin, HIGH);
 	delay(10);
 	digitalWrite(LCD::enablePin, LOW);
 	digitalWrite(LCD::rsPin,LOW);
+	resetShiftRegister();
 }

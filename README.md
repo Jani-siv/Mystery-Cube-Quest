@@ -20,7 +20,7 @@ Serial.begin(9600);
 pinMode(testi.resetPin, OUTPUT);
 pinMode(testi.dataShift1, OUTPUT);
 pinMode(testi.dataShift2, OUTPUT);
-pinMode(testi.dataShift1, OUTPUT);
+pinMode(testi.enablePin, OUTPUT);
 pinMode(testi.rsPin, OUTPUT);
 pinMode(testi.rwPin, OUTPUT);
 pinMode(testi.clockPin, OUTPUT);
@@ -32,10 +32,13 @@ void loop() {
 
 
 // put your main code here, to run repeatedly:
-testi.sendData(0x00,1);
-delay(100);
-testi.sendData(0xFF,1);
+if (testi.reset == 0)
+{ testi.lcd_init();
 }
-// put your main code here, to run repeatedly:
+else
 
+testi.sendData(0x28,1);
+delay(1000);
+
+testi.sendData(0xC0,1);
 }
