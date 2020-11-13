@@ -16,10 +16,17 @@ void LCD::sendData(unsigned int information, int command)
 	resetShiftRegister();
 
 	//setting bit to table from hex
-	for (int i = 0; i < 8; i++)
-		{
-		bitTable[i] = (information>>(i));
-		}
+for (int i = 8; i >= 0; i--)
+                {
+                  temp =(information>>(i-1));
+                  if (temp & 1)
+                  {
+                    bitTable[i] = 1;
+                  }
+                  else
+                  bitTable[i] = 0;
+          
+                }
 	for (int k = 8; k > 0; k--)
 		{
 			digitalWrite(LCD::dataShift2, HIGH);
