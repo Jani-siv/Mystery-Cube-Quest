@@ -13,8 +13,8 @@ class LCD
 	const int resetPin 	= 	3;                 
 	const int dataShift1 	= 	4;
 	const int dataShift2	=	5;
-	const int enablePin 	= 	7;
-	const int rsPin 	= 	6;
+	const int enablePin 	= 	6;
+	const int rsPin 	= 	7;
 	const int rwPin 	= 	8;
 	private:
 	void resetShiftRegister();				//reset shift register
