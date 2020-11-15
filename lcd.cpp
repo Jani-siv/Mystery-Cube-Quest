@@ -60,6 +60,7 @@ for (int i = 8; i >= 0; i--)
 void LCD::lcd_init()
 {
   digitalWrite(LCD::enablePin, LOW);
+  digitalWrite(LCD::OE,HIGH);
   delay(1000);
   unsigned int init_table[6] = {0x30,0x30,0x30,0x38,0x0D,0x06};
   Serial.print("INIT LCD\n");
@@ -90,12 +91,12 @@ void LCD::dataToLCD(int command)
 			}
 	digitalWrite(LCD::RCLK,HIGH);
 	digitalWrite(LCD::RCLK,LOW);
-	digitalWrite(LCD::OE, HIGH);
+	digitalWrite(LCD::OE, LOW);
 	delay(10);
 	digitalWrite(LCD::enablePin, HIGH);
 	delay(10);
 	digitalWrite(LCD::enablePin, LOW);
 	digitalWrite(LCD::rsPin,LOW);
-	digitalWrite(LCD::OE, LOW);
+	digitalWrite(LCD::OE, HIGH);
 	resetShiftRegister();
 }
