@@ -62,7 +62,7 @@ void LCD::lcd_init()
   digitalWrite(LCD::enablePin, LOW);
   digitalWrite(LCD::OE,HIGH);
   delay(1000);
-  unsigned int init_table[8] = {0x30,0x30,0x30,0x3C,0x08,0x01,0x07,0x0E};
+  unsigned int init_table[8] = {0x30,0x30,0x30,0x3C,0x08,0x01,0x06,0x0C};
   Serial.print("INIT LCD\n");
   digitalWrite(LCD::rsPin,LOW);
   digitalWrite(LCD::enablePin,LOW);
@@ -101,4 +101,31 @@ void LCD::dataToLCD(int command)
 	digitalWrite(LCD::rsPin,LOW);
 	digitalWrite(LCD::OE, HIGH);
 	resetShiftRegister();
+}
+
+void LCD::printInScreen()
+{
+
+for (int k = 0; k < 2; k++)
+{
+for (int i = 0; i <  16; i++)
+{
+  
+  LCD::sendData(LCD::screen[k][i],1);
+  }
+  for (int j=0; j <24; j++)
+  {
+    LCD::sendData(0x20,1);
+  }
+}
+
+}
+
+void LCD::updateTime(int kymmin, int minuutit, int kymsek,int sekunnit) //time interrupt updata screen table
+{
+LCD::screen[0][11] = 0x30 + kymmin;
+LCD::screen[0][12] = 0x30 + minuutit;
+LCD::screen[0][14] = 0x30 + kymsek;
+LCD::screen[0][15] = 0x30 + sekunnit;
+LCD::printInScreen();
 }
