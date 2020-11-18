@@ -1,32 +1,33 @@
 #include "aika.h"
-void pelinTiedot::alustaAika(int maara)                        //time set in seconds
+void aika::yleinenAika(LCD* objekti)
 {
-        peliAika= maara;
-}
- 
-int pelinTiedot::vahennaAika(int maara)
-{
-        if (maara > peliAika)
-        {
-                peliAika = peliAika - maara;
-                return 1;                       //return succesfull 
-        }
-        else
-        {
-                gameOver = 1;
-                peliAika = 0;
-                return 0;                       //time out
-        }
+  if (aika::sekunnit > 0)
+  	{
+    		aika::sekunnit--;
+  	}
+  else if (aika::sekunnit == 0 && aika::kymsek > 0)
+  	{
+    		aika::sekunnit = 9;
+    		aika::kymsek--;
+  	}
+  else if (aika::kymsek == 0 && aika::minuutit > 0)
+  	{
+  		aika::kymsek = 5;
+  		aika::minuutit--;  
+  	}
+  else if (aika::minuutit == 0 && aika::kymmin >0)
+  	{
+    		aika::kymmin--;
+    		aika::minuutit = 9;
+    		aika::kymsek = 5;
+    		aika::sekunnit = 9;
+  	}
+  else if (aika::kymmin == 0 && aika::minuutit == 0 && aika::kymsek == 0 && aika::sekunnit == 0)
+  	{
+    		aika::gameOver = 1;
+  	}
+  objekti->updateTime(aika::kymmin, aika::minuutit, aika::kymsek, aika::sekunnit);
+
+
 }
 
-int pelinTiedot::tarkistaAika()
-{
-                return peliAika;
-}
-
-void pelinTiedot::paivitaAika(int maara)
-{
-        int aika = peliAika;
-        aika = aika - maara;
-        peliAika = aika;
-}
