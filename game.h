@@ -7,11 +7,10 @@ class game
 	public:
 		int gameOver = 0;				//game is over if 1
 		int locks = 3;					//Amount of locks
-		LCD* LCDObjekti;				//instance of LCD class	
-		aika* aikaObjekti;				//instance of aika class
-		void updateLocks(LCD* LCDObjekti);		//setting amount of locks in screen
-		void gameFinished(LCD* LCDObjekti);		//one game finished
-		void gameBegin(LCD* LCDObjekti);
+    		LCD lcdObjekti;					//instance of LCD class	
+		aika aikaObjekti;				//instance of aika class
+		void updateLocks();				//setting amount of locks in screen
+		void gameFinished();				//one game finished
+		void gameBegin();
 };
 #endif
-

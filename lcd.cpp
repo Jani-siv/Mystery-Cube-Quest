@@ -59,23 +59,26 @@ for (int i = 8; i >= 0; i--)
 //lcd init command
 void LCD::lcd_init()
 {
-  digitalWrite(LCD::enablePin, LOW);
-  digitalWrite(LCD::OE,HIGH);
-  delay(1000);
-  unsigned int init_table[8] = {0x30,0x30,0x30,0x3C,0x08,0x01,0x06,0x0C};
-  Serial.print("INIT LCD\n");
-  digitalWrite(LCD::rsPin,LOW);
-  digitalWrite(LCD::enablePin,LOW);
-  for (int i = 0; i < 8; i++)
-  {	
-	  delayMicroseconds(100);
-	  LCD::sendData(init_table[i],0);
-}
+	if (LCD::reset != 1)
+	{
+  		digitalWrite(LCD::enablePin, LOW);
+  		digitalWrite(LCD::OE,HIGH);
+  		delay(1000);
+  		unsigned int init_table[8] = {0x30,0x30,0x30,0x3C,0x08,0x01,0x06,0x0C};
+  		Serial.print("INIT LCD\n");
+  		digitalWrite(LCD::rsPin,LOW);
+  		digitalWrite(LCD::enablePin,LOW);
+  			for (int i = 0; i < 8; i++)
+  			{	
+	  			delayMicroseconds(100);
+	  			LCD::sendData(init_table[i],0);
+			}
 
-  Serial.print("INIT DONE\n");
-  digitalWrite(LCD::rsPin,LOW);
-  //init done
-  LCD::reset = 1;
+  		Serial.print("INIT DONE\n");
+  		digitalWrite(LCD::rsPin,LOW);
+  		//init done
+  		LCD::reset = 1;
+	}
 }
 
 //write to bus and enable LCD read

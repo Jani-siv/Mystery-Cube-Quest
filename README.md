@@ -21,6 +21,7 @@ if setting both clock tight together shift register going one step ahead.
 14 SER data input
 
 ************FILES FOR PROJECT***********
+game.cpp + game.h is superior class for lcd and aika. All game functions coming in this file
 lcd.cpp + lcd.h is driver for 2x16 lcd display
 aika.cpp + aika.h is for time management in project
 
