@@ -50,49 +50,4 @@ void loop() {
 if (testi.reset == 0)
 { testi.lcd_init();
 }
-else
 
-testi.sendData(0x28,1);
-delay(1000);
-
-testi.sendData(0xC0,1);
-}
-
-INIT LCD
-sending command:  30
-
-Data00110000
-
-sending command:  30
-
-Data00110000
-
-sending command:  30
-
-Data00110000
-
-sending command:  4
-
-Data00000100
-
-sending command:  2A
-
-Data00101010
-
-sending command:  38
-
-Data00111000
-
-sending command:  C
-
-Data00001100
-
-sending command:  1
-
-Data00000001
-
-sending command:  7
-
-Data00000111
-
-INIT DONE
