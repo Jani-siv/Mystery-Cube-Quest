@@ -33,7 +33,7 @@ void game::gameBegin()
   {
   game::lcdObjekti.lcd_init();
   game::updateLocks();
-//  game::aikaObjekti.yleinenAika = true; //there are some bugs
+  game::aikaObjekti.yleinenAika = true; //there are some bugs
   game::init = 1;
 
   }
