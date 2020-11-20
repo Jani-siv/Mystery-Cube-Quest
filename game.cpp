@@ -7,18 +7,18 @@ void game::updateLocks()
 {                                   
 
                                       
-        for (int k = 0; k <3; k++)                                          
+        for (int k = 6; k <9; k++)                                          
         {                                                                   
-               game::lcdObjekti.screen[1][k] = 0xA0;			//clear locks from screen
+               game::lcdObjekti.screen[1][k] = 0xA0;  //clear locks from screen
               Serial.print("k:n arvo:  ");
               Serial.println(k);
         }                                                                                 
                                                                                
-        for (int i = 0; i <= game::locks; i++)                               
+        for (int i = 6; i < game::locks+6; i++)                               
         {                                                                   
-        game::lcdObjekti.screen[1][i] = 0x04;				//set locks to screen
+        game::lcdObjekti.screen[1][i] = 0xF2;                       //set locks to screen
         }                                                                             
-        game::lcdObjekti.printInScreen();				//update screen               
+        game::lcdObjekti.printInScreen();                           //update screen               
 }
 /*
 void game::gameFinished(LCD* LCDObjekti)
@@ -29,8 +29,12 @@ void game::gameFinished(LCD* LCDObjekti)
 */
 void game::gameBegin()
 {
-
+  if (game::init != 1)
+  {
   game::lcdObjekti.lcd_init();
- // game::updateLocks();						//arduino broke in loop
+  game::updateLocks();
+  game::aikaObjekti.yleinenAika = true;
+  game::init = 1;
 
+  }
 }

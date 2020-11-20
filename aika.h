@@ -4,17 +4,27 @@
 
 class aika
 {
-		public:
-                int gameOver = 0;
-                void alustaAika(int maara);
+                public:
+                
+                bool yleinenAika = false;                 	//aika keskeytyksen alustus
+                unsigned long int keskeytysMillis = 0;    
+                void alustaAika(int maara);         
                 int vahennaAika(int maara); 
                 void paivitaAika(int maara);
-                void yleinenAika(LCD* objekti);			//vähentää pääkellosta 1 sekunnin
+		//void yleinenAika();                 		//vähentää pääkellosta 1 sekunnin
                 int tarkistaAika();
-    private:
-                int kymmin = 10;				//pääkellon minuutit ja sekunnit
-                int minuutit = 0;
-                int kymsek = 0;
-                int sekunnit = 0;
-};
-#endif
+                void yleinenAikaFunktio(LCD* objekti);          //aika keskeytys
+    private:                                                                            
+                int kymmin = 10;                                //pääkellon minuutit ja sekunnit
+                int minuutit = 0;                                                       
+                int kymsek = 0;                                                     
+                int sekunnit = 0;                                                   
+                                                                                    
+                
+                
+                int aikaMin = 10;                               //keskeytyksen aika minuuttia      
+                int aikaSec = 0;                                //keskeytyksen aika sekunttia      
+                
+                unsigned long int millisFunktiossa = 0;
+};                                                                                                 
+#endif   

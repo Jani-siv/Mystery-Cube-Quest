@@ -5,6 +5,7 @@
 class game
 {
 	public:
+		int init = 0;					//is game initialized 1 = yes
 		int gameOver = 0;				//game is over if 1
 		int locks = 3;					//Amount of locks
     		LCD lcdObjekti;					//instance of LCD class	

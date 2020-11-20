@@ -19,8 +19,8 @@ class LCD
         const int enablePin     =       7;                      //LCD read bus pin      
         const int rsPin         =       8;                      //command pin, commands register LOW, to screen HIGH 
         unsigned int screen[2][16] = {{0x4D,0x43,0x51,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0x31,0x30,0x3A,0x30,0x30},
-                                     {0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0}}; // 2 rows 8 character first start 00 address second row 40 address        
-        private:                                                                                                        
+                                     {0x4C,0x4F,0x43,0x4B,0x53,0x3A,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0}};
+	private:                                                                                                        
         void resetShiftRegister();                              //reset shift register                                  
         void dataToLCD(int command);                            //send data and set pin                                 
 
