@@ -26,10 +26,10 @@ pinMode(testi.LCDOlio->rsPin, OUTPUT);
 
 ISR (TIMER0_COMPA_vect) 
 {
-  if(testi.aikaObjekti.yleinenAika == true) {
-    testi.aikaObjekti.keskeytysMillis++;
+ // if(testi.aikaObjekti.yleinenAika == true) {
+   // testi.aikaObjekti.keskeytysMillis++;
   }
-}
+//}
 
 
 int kymmin = 0;
@@ -45,8 +45,8 @@ void loop() {
 
 testi.gameBegin();
 
-if(testi.aikaObjekti.yleinenAika == true) {
-  testi.aikaObjekti.yleinenAikaFunktio(testi.LCDOlio);
+//if(testi.aikaObjekti.yleinenAika == true) {
+ // testi.aikaObjekti.yleinenAikaFunktio(testi.LCDOlio);
 }
 
 /*
@@ -80,4 +80,4 @@ if(testi.aikaObjekti.yleinenAika == true) {
   testi.LCDOlio->updateTime(kymmin, minuutit, kymsek, sekunnit);
 
 */
-  }
+//  }
