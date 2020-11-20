@@ -4,7 +4,6 @@
 void LCD::resetShiftRegister()
 {
   digitalWrite(LCD::SRCLR,LOW);
-  delay(10);
   digitalWrite(LCD::SRCLR,HIGH);
 }
 
@@ -99,7 +98,7 @@ void LCD::dataToLCD(int command)
 
 		if (command != 0)
 			{
-  			digialWrite(LCD::rsPin,HIGH);
+  		digitalWrite(LCD::rsPin,HIGH);
 			}
 		if (command == 0)
 			{
@@ -155,4 +154,4 @@ LCD::screen[0][12] = 0x30 + minuutit;
 LCD::screen[0][14] = 0x30 + kymsek;
 LCD::screen[0][15] = 0x30 + sekunnit;
 LCD::printInScreen();
-}t
+}	
