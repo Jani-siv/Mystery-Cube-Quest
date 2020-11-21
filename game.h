@@ -14,6 +14,6 @@ class game
 		void updateLocks();				//setting amount of locks in screen
 		void gameFinished();				//one game finished
 		void gameBegin();
-
+    void outOfTime();                               //out of time print screen
 };
 #endif

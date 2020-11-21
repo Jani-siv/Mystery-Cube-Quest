@@ -21,20 +21,104 @@ void game::updateLocks()
 
 void game::gameFinished()
 {
-	game::locks -= 1;					// decreace amount of locks
-	// make test is lock > 0 for ending the game
-	game::updateLocks();					//update locks to screen
+	game::locks -= 1;
+	game::updateLocks();
 }
 
 void game::gameBegin()
 {
   if (game::init != 1)
   {
-  game::lcdObjekti.lcd_init();			//initializin both displays
-  game::updateLocks();				//write locks in main screen
-  game::lcdObjekti.printInScreen(2);		//setting view of second screen
-  game::aikaObjekti.yleinenAika = true; 	//setting time interrupts on
-  game::init = 1;				//init done never coming back to set this up
+  game::lcdObjekti.lcd_init();
+  //game::lcdObjekti.lcd_init(2);
+
+  game::updateLocks();
+  game::lcdObjekti.printInScreen(2);
+  game::aikaObjekti.yleinenAika = true; 
+  game::init = 1;
 
   }
 }
+
+void game::outOfTime()
+{
+  unsigned int gameEnd[2][16] = {{0x47,0x41,0x4D,0x45,0xA0,0x4F,0x56,0x45,0x52,0x21,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0},
+                                     {0x4F,0x55,0x54,0xA0,0x4F,0x46,0xA0,0x54,0x49,0x4D,0x45,0x21,0x21,0x21,0xA0,0xA0}};
+//runnin out of memory :D init table to end of game :D :D
+//first screen first line 
+game::lcdObjekti.screenTable[0][0] = 0x47;
+game::lcdObjekti.screenTable[0][1] = 0x41;
+game::lcdObjekti.screenTable[0][2] = 0x4D;
+game::lcdObjekti.screenTable[0][3] = 0x45;
+game::lcdObjekti.screenTable[0][4] = 0xA0;
+game::lcdObjekti.screenTable[0][5] = 0x4F;
+game::lcdObjekti.screenTable[0][6] = 0x56;
+game::lcdObjekti.screenTable[0][7] = 0x45;
+game::lcdObjekti.screenTable[0][8] = 0x52;
+game::lcdObjekti.screenTable[0][9] = 0x21;
+game::lcdObjekti.screenTable[0][10] = 0xA0;
+game::lcdObjekti.screenTable[0][11] = 0xA0;
+game::lcdObjekti.screenTable[0][12] = 0xA0;
+game::lcdObjekti.screenTable[0][13] = 0xA0;
+game::lcdObjekti.screenTable[0][14] = 0xA0;
+game::lcdObjekti.screenTable[0][15] = 0xA0;
+
+//Fist screen Second line
+game::lcdObjekti.screenTable[1][0] = 0x4F;
+game::lcdObjekti.screenTable[1][1] = 0x55;
+game::lcdObjekti.screenTable[1][2] = 0x54;
+game::lcdObjekti.screenTable[1][3] = 0xA0;
+game::lcdObjekti.screenTable[1][4] = 0x4F;
+game::lcdObjekti.screenTable[1][5] = 0x46;
+game::lcdObjekti.screenTable[1][6] = 0xA0;
+game::lcdObjekti.screenTable[1][7] = 0x54;
+game::lcdObjekti.screenTable[1][8] = 0x49;
+game::lcdObjekti.screenTable[1][9] = 0x4D;
+game::lcdObjekti.screenTable[1][10] = 0x45;
+game::lcdObjekti.screenTable[1][11] = 0x21;
+game::lcdObjekti.screenTable[1][12] = 0x21;
+game::lcdObjekti.screenTable[1][13] = 0x21;
+game::lcdObjekti.screenTable[1][14] = 0xA0;
+game::lcdObjekti.screenTable[1][15] = 0xA0;
+//second screen first line  
+game::lcdObjekti.screenTable2[0][0] = 0x47;
+game::lcdObjekti.screenTable2[0][1] = 0x41;
+game::lcdObjekti.screenTable2[0][2] = 0x4D;
+game::lcdObjekti.screenTable2[0][3] = 0x45;
+game::lcdObjekti.screenTable2[0][4] = 0xA0;
+game::lcdObjekti.screenTable2[0][5] = 0x4F;
+game::lcdObjekti.screenTable2[0][6] = 0x56;
+game::lcdObjekti.screenTable2[0][7] = 0x45;
+game::lcdObjekti.screenTable2[0][8] = 0x52;
+game::lcdObjekti.screenTable2[0][9] = 0x21;
+game::lcdObjekti.screenTable2[0][10] = 0xA0;
+game::lcdObjekti.screenTable2[0][11] = 0xA0;
+game::lcdObjekti.screenTable2[0][12] = 0xA0;
+game::lcdObjekti.screenTable2[0][13] = 0xA0;
+game::lcdObjekti.screenTable2[0][14] = 0xA0;
+game::lcdObjekti.screenTable2[0][15] = 0xA0;
+
+//second screen Second line
+game::lcdObjekti.screenTable2[1][0] = 0x4F;
+game::lcdObjekti.screenTable2[1][1] = 0x55;
+game::lcdObjekti.screenTable2[1][2] = 0x54;
+game::lcdObjekti.screnTable2[1][3] = 0xA0;
+game::lcdObjekti.screenTable2[1][4] = 0x4F;
+game::lcdObjekti.screenTable2[1][5] = 0x46;
+game::lcdObjekti.screenTable2[1][6] = 0xA0;
+game::lcdObjekti.screenTable2[1][7] = 0x54;
+game::lcdObjekti.screenTable2[1][8] = 0x49;
+game::lcdObjekti.screenTable2[1][9] = 0x4D;
+game::lcdObjekti.screenTable2[1][10] = 0x45;
+game::lcdObjekti.screenTable2[1][11] = 0x21;
+game::lcdObjekti.screenTable2[1][12] = 0x21;
+game::lcdObjekti.screenTable2[1][13] = 0x21;
+game::lcdObjekti.screenTable2[1][14] = 0xA0;
+game::lcdObjekti.screenTable2[1][15] = 0xA0;
+
+ //print screen
+  game::lcdObjekti.printInScreen(1);
+  
+  game::lcdObjekti.printInScreen(2);
+  cli();
+}e
