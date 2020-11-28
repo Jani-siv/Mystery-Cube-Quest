@@ -20,7 +20,8 @@ pinMode(testi.LCDOlio->SER, OUTPUT);
 pinMode(testi.LCDOlio->OE, OUTPUT);
 pinMode(testi.LCDOlio->enablePin, OUTPUT);
 pinMode(testi.LCDOlio->rsPin, OUTPUT);
-
+pinMode(testi.LCDOlio->enablePin2,OUTPUT);
+pinMode(testi.gameButton,INPUT);
 
 }
 
@@ -32,52 +33,28 @@ ISR (TIMER0_COMPA_vect)
 }
 
 
-int kymmin = 0;
-int minuutit = 1;
-int kymsek = 0;
-int sekunnit = 0;
-
-unsigned int i = 0x00;
-int roundNumber = 0;
-int upd = 0;
 void loop() {
   
 
-testi.gameBegin();
-
+testi.initGame();
+Serial.println("game begins");
+int button = digitalRead(testi.gameButton);
+if (button == HIGH)
+{
+while (testi.gameOver != 1)
+{
 if(testi.aikaObjekti.yleinenAika == true) {
   testi.aikaObjekti.yleinenAikaFunktio(testi.LCDOlio);
 }
+//peli funktiot tähän ja jokaiselle oma numerointi ettei yritä kahta peliä yhtäaikaa käyntiin
+testi.game1();
+if (testi.aikaObjekti.yleinenAika == false)
+{
+  Serial.println("TIME UP");
+  testi.outOfTime();
+  unsigned int kokeilu = testi.LCDOlio->screenTable[0][1];
+  Serial.println(kokeilu,HEX);
 }
-/*
-
-    delay(500);
-  if (sekunnit > 0)
-  {
-    sekunnit--;
-  }
-  else if (sekunnit == 0 && kymsek > 0)
-  {
-    sekunnit = 9;
-    kymsek--;
-  }
-  else if (kymsek == 0 && minuutit > 0)
-  {
-  kymsek = 5;
-  minuutit--;  
-  }
-  else if (minuutit == 0 && kymmin >0)
-  {
-    kymmin--;
-    minuutit = 9;
-    kymsek = 5;
-    sekunnit = 9;
-  }
-  else if (kymmin == 0 && minuutit == 0 && kymsek == 0 && sekunnit == 0)
-  {
-    kymmin = 1;
-  }
-  testi.LCDOlio->updateTime(kymmin, minuutit, kymsek, sekunnit);
-
-*/
-//  }
+}
+}
+}
