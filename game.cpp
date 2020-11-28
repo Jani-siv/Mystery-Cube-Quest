@@ -169,11 +169,16 @@ void game::game1()
 
         game::setNumberInScreen(game::randNum);
         int pushButton = digitalRead(game::gameButton);
-          if (pushButton == HIGH)
+        if (pushButton == LOW && game::buttonRelease == 1)
+        {
+          game::buttonRelease = 0;
+        }
+          if (pushButton == HIGH && game::buttonRelease == 0)
           {
             game::roundNum--;
             randNum -= 5;
-          }
+            game::buttonRelease = 1;
+            }
         
           Serial.println("game1");
                 //waiting button push
@@ -186,8 +191,71 @@ if (game::roundNum <= 0 && playNumber == 1)
 {
   Serial.println("roundnum");
   game::playNumber = 2;
-  game::locks--;
+  game::locks--;      //game finished update amount of locks
+  //clear display game information
+  game::lcdObjekti.screenTable[0][6] = 0x20;
+  game::lcdObjekti.screenTable[0][7] = 0x20;
+  game::updateLocks(); //update locks in screen
+  game::roundNum = 3; //next game roundnumbers
   game::lcdObjekti.printInScreen(1);
+
+}
+}
+
+void game::game2()
+{
+if (game::playNumber == 2)
+{
+game::printGameNumber(2);
+//debug
+int debug = digitalRead(game::gameButton);
+//stop program running with pressed button
+if (debug == LOW && game::buttonRelease == 1)
+{
+  game::buttonRelease = 0;
+}
+if ( debug == HIGH && game::buttonRelease == 0)
+{
+  //fast ending game
+  game::buttonRelease = 1;
+  game::playNumber = 3;
+  game::locks--;      //game finished update amount of locks
+  game::updateLocks(); //update locks in screen
+  game::roundNum = 3; //next game roundnumbers
   
 }
+
+
+
 }
+}
+
+void game::game3()
+{
+
+if (game::playNumber == 3)
+{
+game::printGameNumber(3);
+//debug
+int debug = digitalRead(game::gameButton);
+if (debug == LOW && game::buttonRelease == 1) {
+game::buttonRelease = 0;
+Serial.println("low");
+}
+if ( debug == HIGH && game::buttonRelease == 0)
+{
+  game::buttonRelease = 1;
+  game::playNumber = 4;
+  game::locks = 0;      //game finished update amount of locks
+  game::updateLocks(); //update locks in screen
+  game::roundNum = 3; //next game roundnumbers
+}
+}
+
+
+
+}
+
+
+
+p

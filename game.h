@@ -1,4 +1,4 @@
-#ifndef GAME_H
+ #ifndef GAME_H
 #define GAME_H
 #include "lcd.h"
 #include "aika.h"
@@ -19,6 +19,7 @@ class game
                 void gameBegin();                               //init screens
                 void initGame();                                //game start function
                 void outOfTime();                               //out of time print screen
+                int buttonRelease = 1;                          // if button is realeased
                 void setNumberInScreen(int num);                //Jonin game desimal in screen
                 void printGameNumber(int num);            //print game number in screen
                 void game1();                                   //jonin game                                                                
@@ -29,4 +30,4 @@ class game
                 void game3();                                   //Jani game                                                                 
                                                                                                                                             
 };                                                                                                                                          
-#endif          
+#endif           

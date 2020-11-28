@@ -48,13 +48,21 @@ if(testi.aikaObjekti.yleinenAika == true) {
 }
 //peli funktiot tähän ja jokaiselle oma numerointi ettei yritä kahta peliä yhtäaikaa käyntiin
 testi.game1();
+testi.game2();
+testi.game3();
+if (testi.playNumber == 4)
+{
+  //game over you win
+  sei();
+}
+}
 if (testi.aikaObjekti.yleinenAika == false)
 {
   Serial.println("TIME UP");
   testi.outOfTime();
   unsigned int kokeilu = testi.LCDOlio->screenTable[0][1];
-  Serial.println(kokeilu,HEX);
+
 }
 }
 }
-}
+
