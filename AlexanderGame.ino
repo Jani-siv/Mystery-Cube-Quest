@@ -207,9 +207,9 @@ void peli1Funktio()
           randomVariable  = 1;
           
           digitalWrite(ledOut1, LOW);
-    		  digitalWrite(ledOut2, LOW);
-    		  digitalWrite(ledOut3, LOW);
-   			  digitalWrite(ledOut4, LOW);
+          digitalWrite(ledOut2, LOW);
+          digitalWrite(ledOut3, LOW);
+          digitalWrite(ledOut4, LOW);
           
         }
     
@@ -238,9 +238,9 @@ void peli1Funktio()
           randomVariable  = 1;
           
           digitalWrite(ledOut1, LOW);
-    		  digitalWrite(ledOut2, LOW);
-    		  digitalWrite(ledOut3, LOW);
-   			  digitalWrite(ledOut4, LOW);
+          digitalWrite(ledOut2, LOW);
+          digitalWrite(ledOut3, LOW);
+          digitalWrite(ledOut4, LOW);
           
           
         }
@@ -271,9 +271,9 @@ void peli1Funktio()
           randomVariable  = 1;
           
           digitalWrite(ledOut1, LOW);
-    		  digitalWrite(ledOut2, LOW);
-    		  digitalWrite(ledOut3, LOW);
-   			  digitalWrite(ledOut4, LOW);
+          digitalWrite(ledOut2, LOW);
+          digitalWrite(ledOut3, LOW);
+          digitalWrite(ledOut4, LOW);
           
         }
       
@@ -303,9 +303,9 @@ void peli1Funktio()
           randomVariable   = 1;
           
           digitalWrite(ledOut1, LOW);
-    		  digitalWrite(ledOut2, LOW);
-    		  digitalWrite(ledOut3, LOW);
-   			  digitalWrite(ledOut4, LOW);
+          digitalWrite(ledOut2, LOW);
+          digitalWrite(ledOut3, LOW);
+          digitalWrite(ledOut4, LOW);
           
         }
       
