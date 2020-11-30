@@ -21,7 +21,7 @@ int buttonVariable  = 1;
 
 //Ei käytetty vielä
 int vaikeus = 0;
-int vaikeusAika = 0;  //<-- if (vaikeus == 0) {vaikeusAika = 500}, if (vaikeus == 1) {vaikeusAika = 400} etc.
+int vaikeusAika = 0;  //<-- if (vaikeus == 0) {vaikeusAika = 300}, if (vaikeus == 1) {vaikeusAika = 200} etc.
 int vaikeusTarkistus = 0;
 
 
@@ -95,32 +95,31 @@ void setup() {
 
 void loop() 
 {
-  peli1Funktio();
+  if(game1Rounds < 3) {
+    peli1Funktio();
+  }
 }
 
 
 
 void peli1Funktio() 
 {
-  //Check game difficulty
-  if(vaikeus == 1) 
-  {
-    vaikeusAika = 500;
-  }
-  else if(vaikeus == 2)
-  {
-    vaikeusAika = 400;
-  }
-  else if(vaikeus == 3)
+  
+  if(vaikeus == 0) 
   {
     vaikeusAika = 300;
   }
-  else if(vaikeus > 3)
+  else if(vaikeus == 1)
   {
-    vaikeusAika = 500;
-    Serial.println("Something wrong with game difficulty");
-    vaikeus = 0;
+    vaikeusAika = 200;
   }
+  else if(vaikeus == 2)
+  {
+    vaikeusAika = 100;
+  }
+  
+  
+  
   
   
   //Kopioidan keskeytyksen muuttujat, koska me tarvitaan oikeat arvot. Jos ne käytetään heti, tulee väärit arvot ja sekoitaa kaikki
@@ -232,6 +231,8 @@ void peli1Funktio()
           digitalWrite(ledOut3, LOW);
           digitalWrite(ledOut4, LOW);
           
+          game1Rounds--;
+          
         }
     
         if(buttonTable[buttonVariable] == randomTable[buttonVariable]) 
@@ -263,6 +264,7 @@ void peli1Funktio()
           digitalWrite(ledOut3, LOW);
           digitalWrite(ledOut4, LOW);
           
+          game1Rounds--;
           
         }
       
@@ -296,6 +298,7 @@ void peli1Funktio()
           digitalWrite(ledOut3, LOW);
           digitalWrite(ledOut4, LOW);
           
+          game1Rounds--;
         }
       
         if(buttonTable[buttonVariable] == randomTable[buttonVariable]) 
@@ -328,6 +331,7 @@ void peli1Funktio()
           digitalWrite(ledOut3, LOW);
           digitalWrite(ledOut4, LOW);
           
+          game1Rounds--;
         }
       
         if(buttonTable[buttonVariable] == randomTable[buttonVariable]) 
@@ -344,6 +348,7 @@ void peli1Funktio()
     if(buttonTable[4] == randomTable[4] && vaikeusTarkistus == 4) 
     {
       vaikeus++;
+      game1Rounds++;
       vaikeusTarkistus = 0;
       randomVariable = 1;
       buttonVariable = 1;
@@ -351,6 +356,7 @@ void peli1Funktio()
       digitalWrite(ledOut2, LOW);
       digitalWrite(ledOut3, LOW);
       digitalWrite(ledOut4, LOW);
+      
     }
     
     cli();
