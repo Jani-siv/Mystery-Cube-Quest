@@ -150,6 +150,7 @@ void game::setNumberInScreen(int num)
 }
 void game::printGameNumber(int num)
 {
+ 
         game::gameNumber[5] = 0x30 + num;
         game::lcdObjekti.screenTable[0][0] = game::gameNumber[0];
         game::lcdObjekti.screenTable[0][1] = game::gameNumber[1];
@@ -157,7 +158,7 @@ void game::printGameNumber(int num)
         game::lcdObjekti.screenTable[0][3] = game::gameNumber[3];
         game::lcdObjekti.screenTable[0][4] = game::gameNumber[4];
         game::lcdObjekti.screenTable[0][4] = game::gameNumber[5];
-
+  
   
 }
 void game::game1()
@@ -235,14 +236,25 @@ void game::game3()
 
 if (game::playNumber == 3)
 {
+  //test is screen avaible
+  if (game::aikaInDisplay == 99)
+  {
 game::printGameNumber(3);
+  }
 //debug
 int debug = digitalRead(game::gameButton);
-if (debug == LOW && game::buttonRelease == 1) {
+if (debug == LOW && game::buttonRelease == 1)  //Stop going foward without relaesing button 
+{
 game::buttonRelease = 0;
 Serial.println("low");
 }
-if ( debug == HIGH && game::buttonRelease == 0)
+//game code
+
+
+game::answer(0);
+
+
+if ( debug == HIGH && game::buttonRelease == 0)       //This game is finished
 {
   game::buttonRelease = 1;
   game::playNumber = 4;
@@ -251,11 +263,71 @@ if ( debug == HIGH && game::buttonRelease == 0)
   game::roundNum = 3; //next game roundnumbers
 }
 }
+}
 
-
-
+void game::answer(int a)
+{
+  Serial.print("Answer");
+  if (game::aikaInDisplay == 99)      //first time pass setting values
+  {
+  //store in temporary table what is in screen before answer
+  game::tempTable[0] = game::lcdObjekti.screenTable[0][0];
+  game::tempTable[1] = game::lcdObjekti.screenTable[0][1];
+  game::tempTable[2] = game::lcdObjekti.screenTable[0][2];
+  game::tempTable[3] = game::lcdObjekti.screenTable[0][3];
+  game::tempTable[4] = game::lcdObjekti.screenTable[0][4];
+  game::tempTable[5] = game::lcdObjekti.screenTable[0][5];
+  game::tempTable[6] = game::lcdObjekti.screenTable[0][6];
+game::aikaInDisplay = game::aikaObjekti.aikaSec;
+if ( game::aikaInDisplay < 2) {
+  game::aikaInDisplay = 61 - game::aikaObjekti.aikaSec;
+  game::aikaInDisplay -= 2;
+  
+}
 }
 
 
+  if (a == 0)
+  {
+    game::lcdObjekti.screenTable[0][0] = 0x57;  //W
+    game::lcdObjekti.screenTable[0][1] = 0x52;  //R
+    game::lcdObjekti.screenTable[0][2] = 0x4F;  //O
+    game::lcdObjekti.screenTable[0][3] = 0x4D;  //N
+    game::lcdObjekti.screenTable[0][4] = 0x47;  //G
+    if (game::aikaInDisplay != game::aikaObjekti.aikaSec && game::aikaInDisplay != 99)
+{ 
+    game::lcdObjekti.printInScreen(1);
+}  
+    }
+  if (a == 1)
+  {
+    game::lcdObjekti.screenTable[0][0] = 0x43; //C
+    game::lcdObjekti.screenTable[0][1] = 0x4F; //O
+    game::lcdObjekti.screenTable[0][2] = 0x52; //R
+    game::lcdObjekti.screenTable[0][3] = 0x52; //R
+    game::lcdObjekti.screenTable[0][4] = 0x45; //E
+    game::lcdObjekti.screenTable[0][4] = 0x43; //C
+    game::lcdObjekti.screenTable[0][4] = 0x54; //T
+ if (game::aikaInDisplay != game::aikaObjekti.aikaSec && game::aikaInDisplay != 99)
+{ 
+    game::lcdObjekti.printInScreen(1);
+}
+  }
+  
+  if (game::aikaInDisplay == game::aikaObjekti.aikaSec || game::aikaInDisplay > game::aikaObjekti.aikaSec && game::aikaInDisplay != 99 )
+{
 
-p
+  //set screen back original
+  game::aikaInDisplay = 99;
+game::lcdObjekti.screenTable[0][0] = game::tempTable[0];
+game::lcdObjekti.screenTable[0][1] = game::tempTable[1];
+game::lcdObjekti.screenTable[0][2] = game::tempTable[2];
+game::lcdObjekti.screenTable[0][3] = game::tempTable[3];
+game::lcdObjekti.screenTable[0][4] = game::tempTable[4];
+game::lcdObjekti.screenTable[0][5] = game::tempTable[5];
+game::lcdObjekti.screenTable[0][6] = game::tempTable[6];
+game::lcdObjekti.printInScreen(1);
+
+}
+}
+

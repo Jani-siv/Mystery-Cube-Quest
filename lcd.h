@@ -6,6 +6,9 @@ class LCD
         //define pin
         //reset first entry
         public:
+        void winner();                                          //end screen    
+                               
+
         int reset1       	=       0;
         int reset2       	=       0;
         int EnableLCD	 	=	1;
@@ -25,14 +28,13 @@ class LCD
         unsigned int screenTable[2][16] = {{0x4D,0x43,0x51,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0x31,0x30,0x3A,0x30,0x30},
                                      {0x4C,0x4F,0x43,0x4B,0x53,0x3A,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0}}; // First display (main) 2 rows 8 character first start 00 address second row 40 address        
          unsigned int screenTable2[2][16] = {{0x4D,0x79,0x73,0x74,0x65,0x72,0x79,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0},
-                                     {0x43,0x75,0x62,0x65,0x2D,0x51,0x75,0x65,0x73,0x74,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0}}; //second display
-
-	debug var;
+                                     {0x43,0x75,0x62,0x65,0x2D,0x51,0x75,0x65,0x73,0x74,0xA0,0xA0,0xA0,0xA0,0xA0,0xA0}}; // Second dispalay 2 rows 8 character first start 00 address second row 40 address  
+        debug var;
         debug *variable = &var;
         private:                                                                                                        
         void resetShiftRegister();                              //reset shift register                                  
-        void dataToLCD(int command, int screen);                            //send data and set pin                                 
-
+        void dataToLCD(int command, int screen);                            //send data and set pin     
+        
                                                                                                                         
 };                                                                                                                     
 #endif

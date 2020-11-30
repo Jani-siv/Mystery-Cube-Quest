@@ -35,8 +35,15 @@ ISR (TIMER0_COMPA_vect)
 
 void loop() {
   
-
+if (testi.init == 0)
+{
 testi.initGame();
+}
+    if (testi.aikaObjekti.aikaSec > 0 && testi.gameOver == 1|| testi.aikaObjekti.aikaMin > 0 && testi.gameOver == 1)
+  {
+    Serial.println("WINNER");
+    testi.lcdObjekti.winner();
+  }
 Serial.println("game begins");
 int button = digitalRead(testi.gameButton);
 if (button == HIGH)
@@ -52,17 +59,20 @@ testi.game2();
 testi.game3();
 if (testi.playNumber == 4)
 {
-  //game over you win
-  sei();
+ testi.aikaObjekti.yleinenAika = false;
+ testi.gameOver = 1;
 }
 }
-if (testi.aikaObjekti.yleinenAika == false)
-{
+
+  if (testi.aikaObjekti.aikaSec == 0 && testi.aikaObjekti.aikaMin == 0)
+  {
   Serial.println("TIME UP");
   testi.outOfTime();
-  unsigned int kokeilu = testi.LCDOlio->screenTable[0][1];
+  }
+
+
+
 
 }
-}
-}
 
+}

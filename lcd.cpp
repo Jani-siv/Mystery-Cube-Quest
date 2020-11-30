@@ -1,4 +1,4 @@
- #include "lcd.h"
+#include "lcd.h"
 #include "debug.h"
 #include <Arduino.h>
 void LCD::resetShiftRegister()
@@ -71,7 +71,7 @@ void LCD::lcd_init()
   }
   unsigned int init_table[8] = {0x30,0x30,0x30,0x3C,0x08,0x01,0x06,0x0C};
   Serial.print("INIT LCD\n");
-  digitalWrite(LCD:rsPin,LOW);
+  digitalWrite(LCD::rsPin,LOW);
   digitalWrite(LCD::enablePin,LOW);
   digitalWrite(LCD::enablePin2,LOW);
   for (int i = 0; i < 8; i++)
@@ -152,7 +152,7 @@ void LCD::printInScreen(int screen)
                         if (screen == 2)
                                 {
                                 LCD::sendData(LCD::screenTable2[k][i],1,screen);
-                                //debug
+                               //debug
                                 LCD::variable->debugInt(i);
                                 LCD::variable->debugInt(screenTable2[k][i]);
                                 }
@@ -189,4 +189,17 @@ if (screen == 1)
                 LCD::EnableLCD = LCD::enablePin2;
         }
 }
-:
+
+void LCD::winner() 
+{
+ 
+  LCD::screenTable[0][0] = 0x57;
+  LCD::screenTable[0][0] = 0x49;
+  LCD::screenTable[0][0] = 0x4D;
+  LCD::screenTable[0][0] = 0x4D;
+  LCD::screenTable[0][0] = 0x45;
+  LCD::screenTable[0][0] = 0x52;
+  LCD::printInScreen(1);  
+}
+
+ 
