@@ -178,6 +178,7 @@ void peli1Funktio()
       
       cli();
       timerMillis1RANDOM = 0;
+      timerMillis1BUTTON = 0;
       sei();
     }
   }
@@ -219,7 +220,7 @@ void peli1Funktio()
           digitalWrite(ledOut4, LOW);
           
       	  buttonTable[1] = 0;
-     	  buttonTable[2] = 0;
+          buttonTable[2] = 0;
       	  buttonTable[3] = 0;
       	  buttonTable[4] = 0;
           
@@ -257,7 +258,7 @@ void peli1Funktio()
           digitalWrite(ledOut4, LOW);
           
       	  buttonTable[1] = 0;
-     	  buttonTable[2] = 0;
+          buttonTable[2] = 0;
       	  buttonTable[3] = 0;
       	  buttonTable[4] = 0;
           
@@ -374,6 +375,7 @@ void peli1Funktio()
     
     cli();
     timerMillis1BUTTON = 0;
+    timerMillis1RANDOM = 0;
     sei();
   }
 }
