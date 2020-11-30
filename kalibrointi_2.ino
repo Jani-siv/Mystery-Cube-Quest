@@ -11,7 +11,7 @@ int sensorValueZ = 0;
 
 unsigned long aika = 0;
 
-//testi joka tarkistaa ensimmäinen kertaa ohjelmassa vai ei
+//First time / start test
 int sisaanmeno = 0;
 
 //kalibroinnin arvot
@@ -67,18 +67,18 @@ void loop() {
   
 
   //Sen jälkeen kaikki arvot viedään näyttölle. Aika ja X,Y,Z akselit.
-
-  Serial.print("DegX: ");
-  Serial.print(DegX);
-  Serial.print("\t");
-  Serial.print("DegY: ");
-  Serial.print(DegY);
-  Serial.print("\t");
-  Serial.print("DegZ: ");
-  Serial.println(DegZ);
   
-  //Voimme muutta delay() pienemäksi jos tarvitaan oikeat numerot.
-  //Koska kun pienempi aika, siitä enemmän tarkkuuta.
-  //Esim. delay(20);
+  if(DegX > 30) {
+    //left
+  }
+  if(DegX < -30) {
+    //right
+  }
+  if(DegY > 30) {
+    //Down
+  }
+  if(DegY < -30) {
+    //Up
+  }
   delay(100);
 }
