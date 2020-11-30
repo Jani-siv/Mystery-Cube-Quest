@@ -24,8 +24,6 @@ class game
                 int reserved = 0;                               //display occypyed 1
                 int aikaInDisplay = 99;                         //show answer in seconds
                 int tempTable[7];                      //saving temporary info in table
-		void saveTempTable();				//saving screen 7 first letter
-		void returnTempTable();				//return screen 7 first letter
                 void winner();                                   //winning game
                 void setNumberInScreen(int num);                //Jonin game desimal in screen
                 void printGameNumber(int num);            //print game number in screen
@@ -37,20 +35,5 @@ class game
                 void game3();                                   //Jani game       
 		// 3. game controller
 		int rotate();					//return value of direction
-		const int analogInPinX = A0;			//pin setup
-		const int analogInPinY = A1;
-		const int analogInPinZ = A2; 
-		int sensorValueX = 0;
-		int sensorValueY = 0;
-		int sensorValueZ = 0;
-		float Ax = 0.0;     
-		float Ay = 0.0;     
-		float Az = 0.0;     
-		float DegX = 0.0;   
-		float DegY = 0.0;   
-		float DegZ = 0.0; 
-
-
-                                                                                                                                            
 };                                                                                                                                          
 #endif          

@@ -251,8 +251,15 @@ void game::answer(int a)
   		//reserved display
 		game::reserved = 1;
   		//store in temporary table what is in screen before answer
-  		game::saveTempTable();
-  		//set timing for display resevation
+        	game::tempTable[0] = game::lcdObjekti.screenTable[0][0];
+        	game::tempTable[1] = game::lcdObjekti.screenTable[0][1];
+        	game::tempTable[2] = game::lcdObjekti.screenTable[0][2];
+        	game::tempTable[3] = game::lcdObjekti.screenTable[0][3];
+        	game::tempTable[4] = game::lcdObjekti.screenTable[0][4];
+        	game::tempTable[5] = game::lcdObjekti.screenTable[0][5];
+	        game::tempTable[6] = game::lcdObjekti.screenTable[0][6];
+
+		//set timing for display resevation
 		game::aikaInDisplay = game::aikaObjekti.aikaSec;
 		if ( game::aikaInDisplay < 2) 
 		{
@@ -299,7 +306,14 @@ void game::answer(int a)
   	//set screen back original
   	game::aikaInDisplay = 99;
   	//return saved screen setup
-  	game::returnTempTable();
+        game::lcdObjekti.screenTable[0][0] = game::tempTable[0];
+        game::lcdObjekti.screenTable[0][1] = game::tempTable[1];
+        game::lcdObjekti.screenTable[0][2] = game::tempTable[2];
+        game::lcdObjekti.screenTable[0][3] = game::tempTable[3];
+        game::lcdObjekti.screenTable[0][4] = game::tempTable[4];
+        game::lcdObjekti.screenTable[0][5] = game::tempTable[5];
+        game::lcdObjekti.screenTable[0][6] = game::tempTable[6];
+
 	game::lcdObjekti.printInScreen(1);
 	//free display
 	game::reserved = 0;
@@ -322,10 +336,16 @@ void game::winner()
 int rotate()
 {
   	//sensorValueX jne. lukee mitä anturin X, Y ja Z näyttää
-  	sensorValueX = analogRead(analogInPinX);
-  	sensorValueY = analogRead(analogInPinY);
-  	sensorValueZ = analogRead(analogInPinZ);
-                         
+  	int sensorValueX = analogRead(A0);
+  	int sensorValueY = analogRead(A1);
+  	int sensorValueZ = analogRead(A2);
+	float Ax = 0.0;
+        float Ay = 0.0;
+        float Az = 0.0;
+        float DegX = 0.0;
+        float DegY = 0.0;
+        float DegZ = 0.0;
+                 
   	//ohjelma laskee sensoriarvoa vastaavan kiihtyvyyden
   	//Tai selkkokielillä anturin kalibrointi :)
   	Ax = 0.1307*sensorValueX - 45.519;
@@ -364,25 +384,4 @@ int rotate()
     		//Up
         	return 4;
  	}
-}
-void saveTempTable()
-{
-  	game::tempTable[0] = game::lcdObjekti.screenTable[0][0];
-  	game::tempTable[1] = game::lcdObjekti.screenTable[0][1];
-  	game::tempTable[2] = game::lcdObjekti.screenTable[0][2];
-  	game::tempTable[3] = game::lcdObjekti.screenTable[0][3];
-  	game::tempTable[4] = game::lcdObjekti.screenTable[0][4];
-  	game::tempTable[5] = game::lcdObjekti.screenTable[0][5];
-  	game::tempTable[6] = game::lcdObjekti.screenTable[0][6];
-}
-
-void returnTempTable()
-{
-	game::lcdObjekti.screenTable[0][0] = game::tempTable[0];
-	game::lcdObjekti.screenTable[0][1] = game::tempTable[1];
-	game::lcdObjekti.screenTable[0][2] = game::tempTable[2];
-	game::lcdObjekti.screenTable[0][3] = game::tempTable[3];
-	game::lcdObjekti.screenTable[0][4] = game::tempTable[4];
-	game::lcdObjekti.screenTable[0][5] = game::tempTable[5];
-	game::lcdObjekti.screenTable[0][6] = game::tempTable[6];
 }
