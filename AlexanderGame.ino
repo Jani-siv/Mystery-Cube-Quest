@@ -5,6 +5,12 @@ const int ledOut3 = 4;
 const int ledOut4 = 5;
 const int loseLed = 10;
 
+//led tarkistus
+int led1 = 0;
+int led2 = 0;
+int led3 = 0;
+int led4 = 0;
+
 
 //BUTTON pinnien asetus
 const int nappi1 = 6;
@@ -138,9 +144,10 @@ void peli1Funktio()
   {
     
     //If button 1 pressed: LED 1 lights up
-    if(randomArvo == 1 && digitalRead(ledOut1) == LOW) 
+    if(randomArvo == 1 && led1 == 0) 
     {
       digitalWrite(ledOut1, HIGH);
+      led1 = 1;
       randomVariable++;
       
       cli();
@@ -149,7 +156,7 @@ void peli1Funktio()
     }
     
     //If button 2 pressed: LED 2 lights up
-    else if(randomArvo == 2 && digitalRead(ledOut2) == LOW) 
+    else if(randomArvo == 2 && led == 0) 
     {
       digitalWrite(ledOut2, HIGH);
       randomVariable++;
@@ -160,7 +167,7 @@ void peli1Funktio()
     }
     
     //If button 3 pressed: LED 3 lights up
-    else if(randomArvo == 3 && digitalRead(ledOut3) == LOW) 
+    else if(randomArvo == 3 && led3 == 0) 
     {
       digitalWrite(ledOut3, HIGH);
       randomVariable++;
@@ -171,7 +178,7 @@ void peli1Funktio()
     }
     
     //If button 4 pressed: LED 4 lights up
-    else if(randomArvo == 4 && digitalRead(ledOut4) == LOW)
+    else if(randomArvo == 4 && led4 == 0)
     {
       digitalWrite(ledOut4, HIGH);    
       randomVariable++;
@@ -205,7 +212,7 @@ void peli1Funktio()
     {
         buttonTable[buttonVariable] = 1;
         digitalWrite(ledOut1, LOW);
-      
+      led1 = 0;
         if(buttonTable[buttonVariable] != buttonTable[buttonVariable]) 
         {
           if(vaikeus = 0) {vaikeusTarkistus = 0;}
@@ -215,10 +222,13 @@ void peli1Funktio()
           randomVariable   = 1;
           
           digitalWrite(ledOut1, LOW);
+	  led1 = 0;
           digitalWrite(ledOut2, LOW);
+	  led2 = 0;
           digitalWrite(ledOut3, LOW);
+	  led3 = 0;
           digitalWrite(ledOut4, LOW);
-          
+          led4 = 0;
       	  buttonTable[1] = 0;
           buttonTable[2] = 0;
       	  buttonTable[3] = 0;
@@ -242,7 +252,7 @@ void peli1Funktio()
     {
       buttonTable[buttonVariable] = 2;
       digitalWrite(ledOut2, LOW);
-      
+      led2 = 0;
             
         if(buttonTable[buttonVariable] != randomTable[randomVariable]) 
         {
@@ -251,11 +261,16 @@ void peli1Funktio()
           
           buttonVariable   = 1;
           randomVariable  = 1;
-          
+           
           digitalWrite(ledOut1, LOW);
+	  led1 = 0;
           digitalWrite(ledOut2, LOW);
+	  led2 = 0;
           digitalWrite(ledOut3, LOW);
+	  led3 = 0;
           digitalWrite(ledOut4, LOW);
+          led4 = 0;
+          
           
       	  buttonTable[1] = 0;
           buttonTable[2] = 0;
@@ -282,7 +297,7 @@ void peli1Funktio()
     {
       buttonTable[buttonVariable] = 3;
       digitalWrite(ledOut3, LOW);
-      
+    led3 = 0;  
         if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
         {
           if(vaikeus = 0) {vaikeusTarkistus = 0;}
@@ -290,12 +305,17 @@ void peli1Funktio()
           
           buttonVariable  = 1;
           randomVariable  = 1;
-          
+            
           digitalWrite(ledOut1, LOW);
+	  led1 = 0;
           digitalWrite(ledOut2, LOW);
+	  led2 = 0;
           digitalWrite(ledOut3, LOW);
+	  led3 = 0;
           digitalWrite(ledOut4, LOW);
-          
+          led4 = 0;
+         
+         
           buttonTable[1] = 0;
           buttonTable[2] = 0;
           buttonTable[3] = 0;
@@ -318,7 +338,7 @@ void peli1Funktio()
     {
       buttonTable[buttonVariable] = 4;
       digitalWrite(ledOut4, LOW);
-      
+     led4=0; 
         if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
         {
           if(vaikeus = 0) {vaikeusTarkistus = 0;}
@@ -326,11 +346,16 @@ void peli1Funktio()
           
           buttonVariable   = 1;
           randomVariable   = 1;
-          
+             
           digitalWrite(ledOut1, LOW);
+	  led1 = 0;
           digitalWrite(ledOut2, LOW);
+	  led2 = 0;
           digitalWrite(ledOut3, LOW);
+	  led3 = 0;
           digitalWrite(ledOut4, LOW);
+          led4 = 0;
+        
           
           buttonTable[1] = 0;
           buttonTable[2] = 0;
@@ -366,10 +391,13 @@ void peli1Funktio()
       buttonTable[4] = 0;
       
       digitalWrite(ledOut1, LOW);
-      digitalWrite(ledOut2, LOW);
+   led1=0;
+   	digitalWrite(ledOut2, LOW);
+      led2=0;
       digitalWrite(ledOut3, LOW);
+      led3=0;
       digitalWrite(ledOut4, LOW);
-      
+      led4=0;
     }
     
     
