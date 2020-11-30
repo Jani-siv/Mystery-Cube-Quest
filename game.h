@@ -24,6 +24,8 @@ class game
                 int reserved = 0;                               //display occypyed 1
                 int aikaInDisplay = 99;                         //show answer in seconds
                 int tempTable[7];                      //saving temporary info in table
+		void saveTempTable();				//saving screen 7 first letter
+		void returnTempTable();				//return screen 7 first letter
                 void winner();                                   //winning game
                 void setNumberInScreen(int num);                //Jonin game desimal in screen
                 void printGameNumber(int num);            //print game number in screen
