@@ -6,9 +6,6 @@ class LCD
         //define pin
         //reset first entry
         public:
-        void winner();                                          //end screen    
-                               
-
         int reset1       	=       0;
         int reset2       	=       0;
         int EnableLCD	 	=	1;

@@ -116,7 +116,7 @@ game::lcdObjekti.screenTable2[1][13] = 0x21;
 game::lcdObjekti.screenTable2[1][14] = 0xA0;
 game::lcdObjekti.screenTable2[1][15] = 0xA0;
 
- //rint screen
+ //print creen
   game::lcdObjekti.printInScreen(1);
 
   game::lcdObjekti.printInScreen(2);
@@ -237,7 +237,7 @@ void game::game3()
 if (game::playNumber == 3)
 {
   //test is screen avaible
-  if (game::aikaInDisplay == 99)
+  if (game::aikaInDisplay == 99 && game::reserved == 0)
   {
 game::printGameNumber(3);
   }
@@ -251,7 +251,7 @@ Serial.println("low");
 //game code
 
 
-game::answer(0);
+game::answer(1);
 
 
 if ( debug == HIGH && game::buttonRelease == 0)       //This game is finished
@@ -267,9 +267,11 @@ if ( debug == HIGH && game::buttonRelease == 0)       //This game is finished
 
 void game::answer(int a)
 {
-  Serial.print("Answer");
+  
+  Serial.println(game::aikaInDisplay);
   if (game::aikaInDisplay == 99)      //first time pass setting values
   {
+  game::reserved = 1;
   //store in temporary table what is in screen before answer
   game::tempTable[0] = game::lcdObjekti.screenTable[0][0];
   game::tempTable[1] = game::lcdObjekti.screenTable[0][1];
@@ -278,12 +280,25 @@ void game::answer(int a)
   game::tempTable[4] = game::lcdObjekti.screenTable[0][4];
   game::tempTable[5] = game::lcdObjekti.screenTable[0][5];
   game::tempTable[6] = game::lcdObjekti.screenTable[0][6];
+  Serial.print("Table1: ");
+  int temp = game::tempTable[0];
+  Serial.println(temp);
+  Serial.print("Table2: ");
+ // temp = game::tempTable[0];
+  Serial.println(game::lcdObjekti.screenTable[0][0]);
 game::aikaInDisplay = game::aikaObjekti.aikaSec;
 if ( game::aikaInDisplay < 2) {
   game::aikaInDisplay = 61 - game::aikaObjekti.aikaSec;
   game::aikaInDisplay -= 2;
-  
+  Serial.println("Alle 2 sekunttia");
+  Serial.println(game::aikaInDisplay);
 }
+if (game::aikaInDisplay >1 && game::aikaInDisplay < 60)
+{
+  game::aikaInDisplay = game::aikaObjekti.aikaSec;
+  game::aikaInDisplay -=2;
+}
+
 }
 
 
@@ -314,7 +329,7 @@ if ( game::aikaInDisplay < 2) {
 }
   }
   
-  if (game::aikaInDisplay == game::aikaObjekti.aikaSec || game::aikaInDisplay > game::aikaObjekti.aikaSec && game::aikaInDisplay != 99 )
+  if (game::aikaInDisplay >= game::aikaObjekti.aikaSec && game::aikaInDisplay != 99 )
 {
 
   //set screen back original
@@ -327,7 +342,20 @@ game::lcdObjekti.screenTable[0][4] = game::tempTable[4];
 game::lcdObjekti.screenTable[0][5] = game::tempTable[5];
 game::lcdObjekti.screenTable[0][6] = game::tempTable[6];
 game::lcdObjekti.printInScreen(1);
+game::reserved = 0;
+}
+game::lcdObjekti.printInScreen(1);
 
 }
+void game::winner() 
+{
+ 
+  game::lcdObjekti.screenTable[0][0] = 0x57;
+  game::lcdObjekti.screenTable[0][1] = 0x49;
+  game::lcdObjekti.screenTable[0][2] = 0x4E;
+  game::lcdObjekti.screenTable[0][3] = 0x4E;
+  game::lcdObjekti.screenTable[0][4] = 0x45;
+  game::lcdObjekti.screenTable[0][5] = 0x52;
+  Serial.println("winner");
+  game::lcdObjekti.printInScreen(1);
 }
-

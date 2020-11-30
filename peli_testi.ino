@@ -39,11 +39,7 @@ if (testi.init == 0)
 {
 testi.initGame();
 }
-    if (testi.aikaObjekti.aikaSec > 0 && testi.gameOver == 1|| testi.aikaObjekti.aikaMin > 0 && testi.gameOver == 1)
-  {
-    Serial.println("WINNER");
-    testi.lcdObjekti.winner();
-  }
+
 Serial.println("game begins");
 int button = digitalRead(testi.gameButton);
 if (button == HIGH)
@@ -69,10 +65,18 @@ if (testi.playNumber == 4)
   Serial.println("TIME UP");
   testi.outOfTime();
   }
-
+    if (testi.aikaObjekti.aikaSec > 0 && testi.gameOver == 1|| testi.aikaObjekti.aikaMin > 0 && testi.gameOver == 1)
+  {
+    Serial.println("WINNER");
+//    testi.lcdObjekti.winner();
+  }
 
 
 
 }
-
+if (testi.gameOver == 1)
+{
+  testi.winner();
+ 
+}
 }

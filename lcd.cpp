@@ -190,16 +190,3 @@ if (screen == 1)
         }
 }
 
-void LCD::winner() 
-{
- 
-  LCD::screenTable[0][0] = 0x57;
-  LCD::screenTable[0][0] = 0x49;
-  LCD::screenTable[0][0] = 0x4D;
-  LCD::screenTable[0][0] = 0x4D;
-  LCD::screenTable[0][0] = 0x45;
-  LCD::screenTable[0][0] = 0x52;
-  LCD::printInScreen(1);  
-}
-
- 
