@@ -22,6 +22,9 @@ pinMode(testi.LCDOlio->enablePin, OUTPUT);
 pinMode(testi.LCDOlio->rsPin, OUTPUT);
 pinMode(testi.LCDOlio->enablePin2,OUTPUT);
 pinMode(testi.gameButton,INPUT);
+pinMode(testi.analogInPinX,INPUT);
+pinMode(testi.analogInPinY,INPUT);
+pinMode(testi.analogInPinZ,INPUT);
 
 }
 
