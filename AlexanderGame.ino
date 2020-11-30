@@ -210,6 +210,7 @@ void peli1Funktio()
     		  digitalWrite(ledOut2, LOW);
     		  digitalWrite(ledOut3, LOW);
    			  digitalWrite(ledOut4, LOW);
+          
         }
     
         if(buttonTable[buttonVariable] == randomTable[buttonVariable]) 
@@ -240,6 +241,7 @@ void peli1Funktio()
     		  digitalWrite(ledOut2, LOW);
     		  digitalWrite(ledOut3, LOW);
    			  digitalWrite(ledOut4, LOW);
+          
           
         }
       
@@ -272,6 +274,7 @@ void peli1Funktio()
     		  digitalWrite(ledOut2, LOW);
     		  digitalWrite(ledOut3, LOW);
    			  digitalWrite(ledOut4, LOW);
+          
         }
       
         if(buttonTable[buttonVariable] == randomTable[buttonVariable]) 
@@ -303,6 +306,7 @@ void peli1Funktio()
     		  digitalWrite(ledOut2, LOW);
     		  digitalWrite(ledOut3, LOW);
    			  digitalWrite(ledOut4, LOW);
+          
         }
       
         if(buttonTable[buttonVariable] == randomTable[buttonVariable]) 
