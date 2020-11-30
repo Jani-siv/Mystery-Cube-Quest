@@ -185,7 +185,6 @@ void peli1Funktio()
       
       cli();
       timerMillis1RANDOM = 0;
-      timerMillis1BUTTON = 0;
       sei();
     }
   }
