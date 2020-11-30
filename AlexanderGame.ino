@@ -21,6 +21,7 @@ int buttonVariable  = 1;
 
 //Ei käytetty vielä
 int vaikeus = 0;
+int vaikeusAika = 0;  //<-- if (vaikeus == 0) {vaikeusAika = 500}, if (vaikeus == 1) {vaikeusAika = 400} etc.
 int vaikeusTarkistus = 0;
 
 
@@ -101,6 +102,26 @@ void loop()
 
 void peli1Funktio() 
 {
+  //Check game difficulty
+  if(vaikeus == 1) 
+  {
+    vaikeusAika = 500;
+  }
+  else if(vaikeus == 2)
+  {
+    vaikeusAika = 400;
+  }
+  else if(vaikeus == 3)
+  {
+    vaikeusAika = 300;
+  }
+  else if(vaikeus > 3)
+  {
+    vaikeusAika = 500;
+    Serial.println("Something wrong with game difficulty");
+    vaikeus = 0;
+  }
+  
   
   //Kopioidan keskeytyksen muuttujat, koska me tarvitaan oikeat arvot. Jos ne käytetään heti, tulee väärit arvot ja sekoitaa kaikki
   cli();
@@ -115,7 +136,7 @@ void peli1Funktio()
   randomTable[randomVariable] = randomArvo;
   
   
-  if(randomAika >= 500 && randomVariable < 5) 
+  if(randomAika >= vaikeusAika && randomVariable < 5) 
   {
     
     //If button 1 pressed: LED 1 lights up
