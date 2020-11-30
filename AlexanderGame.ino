@@ -27,7 +27,7 @@ int game1Rounds = 0;
 
 //Tarkistukset, onko peli ja tarkoitetut funktiot päällä
 bool peli1ON        = false;
-bool peli1LedON     = false;
+bool peli1RandomON  = false;
 bool peli1ButtonON  = false;
 //Ei käytetty vielä
 
@@ -43,7 +43,6 @@ ISR(TIMER0_COMPA_vect) {
   
     timerMillis1RANDOM++;
     timerMillis1BUTTON++;
-  
 }
 
 
@@ -95,6 +94,10 @@ void loop()
   if(game1Rounds < 3) {
     peli1Funktio();
   }
+  else {
+    Serial.println("HI");
+  }
+  
 }
 
 
@@ -121,8 +124,8 @@ void peli1Funktio()
   
   //Kopioidan keskeytyksen muuttujat, koska me tarvitaan oikeat arvot. Jos ne käytetään heti, tulee väärit arvot ja sekoitaa kaikki
   cli();
-  int randomAika = timerMillis1RANDOM;
-  int buttonAika = timerMillis1BUTTON;
+  int timer = timerMillis1RANDOM;
+  int timerButton = timerMillis1BUTTON;
   sei();
 
 
@@ -131,7 +134,7 @@ void peli1Funktio()
   randomTable[randomVariable] = randomArvo;
   
   
-  if(randomAika >= vaikeusAika && randomVariable < 5) 
+  if(timer >= vaikeusAika && randomVariable < 5) 
   {
     
     //If button 1 pressed: LED 1 lights up
@@ -186,14 +189,15 @@ void peli1Funktio()
   //-> If pressed button was not right then sets LED to LOW if it was HIGH, sets all variables = 0, and start again randomTable
   
   
-  if(randomAika >= 200 && randomVariable == 5)
+  if(timerButton >= 150)
   {
     
+    
     //Test-text on serial monitor
-    Serial.print(randomTable[1]);
-    Serial.print(randomTable[2]);
-    Serial.print(randomTable[3]);
-    Serial.println(randomTable[4]);
+    Serial.print(buttonTable[1]);
+    Serial.print(buttonTable[2]);
+    Serial.print(buttonTable[3]);
+    Serial.println(buttonTable[4]);
     
     //If pressed button 1:
     if(digitalRead(nappi1) == HIGH) 
@@ -213,6 +217,11 @@ void peli1Funktio()
           digitalWrite(ledOut2, LOW);
           digitalWrite(ledOut3, LOW);
           digitalWrite(ledOut4, LOW);
+          
+      	  buttonTable[1] = 0;
+     	  buttonTable[2] = 0;
+      	  buttonTable[3] = 0;
+      	  buttonTable[4] = 0;
           
           game1Rounds--;
           
@@ -246,6 +255,11 @@ void peli1Funktio()
           digitalWrite(ledOut2, LOW);
           digitalWrite(ledOut3, LOW);
           digitalWrite(ledOut4, LOW);
+          
+      	  buttonTable[1] = 0;
+     	  buttonTable[2] = 0;
+      	  buttonTable[3] = 0;
+      	  buttonTable[4] = 0;
           
           game1Rounds--;
           
@@ -281,6 +295,11 @@ void peli1Funktio()
           digitalWrite(ledOut3, LOW);
           digitalWrite(ledOut4, LOW);
           
+          buttonTable[1] = 0;
+          buttonTable[2] = 0;
+          buttonTable[3] = 0;
+          buttonTable[4] = 0;
+          
           game1Rounds--;
         }
       
@@ -290,8 +309,6 @@ void peli1Funktio()
           vaikeusTarkistus++;
         }
      }
-    
-    
     
     
     
@@ -314,6 +331,11 @@ void peli1Funktio()
           digitalWrite(ledOut3, LOW);
           digitalWrite(ledOut4, LOW);
           
+          buttonTable[1] = 0;
+          buttonTable[2] = 0;
+          buttonTable[3] = 0;
+          buttonTable[4] = 0;
+          
           game1Rounds--;
         }
       
@@ -328,13 +350,20 @@ void peli1Funktio()
     //If buttonTable last position is same that last position randomTable ->
     //-> Set table variables = 1, and all LED's to LOW
     //-> And increases the difficulty of the game (not ready yet)
-    if(buttonTable[4] == randomTable[4] && vaikeusTarkistus == 4) 
+    else if(vaikeusTarkistus == 4)
     {
+      
       vaikeus++;
       game1Rounds++;
       vaikeusTarkistus = 0;
       randomVariable = 1;
       buttonVariable = 1;
+
+      buttonTable[1] = 0;
+      buttonTable[2] = 0;
+      buttonTable[3] = 0;
+      buttonTable[4] = 0;
+      
       digitalWrite(ledOut1, LOW);
       digitalWrite(ledOut2, LOW);
       digitalWrite(ledOut3, LOW);
@@ -342,8 +371,9 @@ void peli1Funktio()
       
     }
     
+    
     cli();
-    timerMillis1RANDOM = 0;
+    timerMillis1BUTTON = 0;
     sei();
   }
 }
