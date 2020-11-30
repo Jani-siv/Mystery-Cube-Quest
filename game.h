@@ -33,7 +33,22 @@ class game
                 int playNumber = 1;
                 void game2();                                   //Alexander game                                                            
                 void game3();                                   //Jani game       
-                                                                        
+		// 3. game controller
+		int rotate();					//return value of direction
+		const int analogInPinX = A0;			//pin setup
+		const int analogInPinY = A1;
+		const int analogInPinZ = A2; 
+		int sensorValueX = 0;
+		int sensorValueY = 0;
+		int sensorValueZ = 0;
+		float Ax = 0.0;     
+		float Ay = 0.0;     
+		float Az = 0.0;     
+		float DegX = 0.0;   
+		float DegY = 0.0;   
+		float DegZ = 0.0; 
+
+
                                                                                                                                             
 };                                                                                                                                          
 #endif          

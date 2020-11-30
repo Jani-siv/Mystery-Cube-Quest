@@ -359,3 +359,49 @@ void game::winner()
   Serial.println("winner");
   game::lcdObjekti.printInScreen(1);
 }
+
+//3. game controller
+int rotate()
+{
+  //sensorValueX jne. lukee mitä anturin X, Y ja Z näyttää
+  sensorValueX = analogRead(analogInPinX);
+  sensorValueY = analogRead(analogInPinY);
+  sensorValueZ = analogRead(analogInPinZ);
+                         
+  //ohjelma laskee sensoriarvoa vastaavan kiihtyvyyden
+  //Tai selkkokielillä anturin kalibrointi :)
+  Ax = 0.1307*sensorValueX - 45.519;
+  Ay = 0.1306*sensorValueY - 45.277;
+  Az = 0.1532*sensorValueZ - 55.368;
+  Ax = min(9.81, Ax);    
+  Ay = min(9.81, Ay);    
+  Az = min(9.81, Az);    
+  Ax = max(-9.81, Ax);   
+  Ay = max(-9.81, Ay);   
+  Az = max(-9.81, Az);   
+                         
+  DegX = asin(Ax / 9.81) * 180 / 3.141593;
+  DegY = asin(Ay / 9.81) * 180 / 3.141593;
+  DegZ = asin(Az / 9.81) * 180 / 3.141593;
+                         
+                         
+  //Sen jälkeen kaikki arvot viedään näyttölle. Aika ja X,Y,Z akselit.
+                         
+  if(DegX > 30) {
+    //left      
+        return 1;
+  }
+  if(DegX < -30) {
+    //right
+        return 2;
+ }
+  if(DegY > 30) {
+    //Down
+        return 3;
+ }
+  if(DegY < -30) {
+    //Up
+        return 4;
+ }
+}
+
