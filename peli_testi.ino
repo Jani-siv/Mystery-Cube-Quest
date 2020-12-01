@@ -2,6 +2,9 @@
 #include "aika.h"
 #include "lcd.h"
 #include "game.h"
+    const int analogInPinX = A0;      //pin setup
+    const int analogInPinY = A1;
+    const int analogInPinZ = A2; 
 game testi;
 void setup() {
   // put your setup code here, to run once:
@@ -22,9 +25,6 @@ pinMode(testi.LCDOlio->enablePin, OUTPUT);
 pinMode(testi.LCDOlio->rsPin, OUTPUT);
 pinMode(testi.LCDOlio->enablePin2,OUTPUT);
 pinMode(testi.gameButton,INPUT);
-pinMode(testi.analogInPinX,INPUT);
-pinMode(testi.analogInPinY,INPUT);
-pinMode(testi.analogInPinZ,INPUT);
 
 }
 
@@ -40,7 +40,7 @@ void loop() {
   
 if (testi.init == 0)
 {
-testi.initGame();
+testi.gameBegin();
 }
 
 Serial.println("game begins");
@@ -53,19 +53,24 @@ if(testi.aikaObjekti.yleinenAika == true) {
   testi.aikaObjekti.yleinenAikaFunktio(testi.LCDOlio);
 }
 //peli funktiot tähän ja jokaiselle oma numerointi ettei yritä kahta peliä yhtäaikaa käyntiin
+  if (testi.aikaObjekti.aikaSec > 0 || testi.aikaObjekti.aikaMin > 0)
+  {
 testi.game1();
 testi.game2();
 testi.game3();
+Serial.println(testi.aikaObjekti.aikaSec);
+  }
 if (testi.playNumber == 4)
 {
  testi.aikaObjekti.yleinenAika = false;
  testi.gameOver = 1;
 }
-}
 
-  if (testi.aikaObjekti.aikaSec == 0 && testi.aikaObjekti.aikaMin == 0)
+
+  if (testi.aikaObjekti.aikaSec <= 0 && testi.aikaObjekti.aikaMin <= 0)
   {
   Serial.println("TIME UP");
+  testi.aikaObjekti.yleinenAika = false;
   testi.outOfTime();
   }
     if (testi.aikaObjekti.aikaSec > 0 && testi.gameOver == 1|| testi.aikaObjekti.aikaMin > 0 && testi.gameOver == 1)
@@ -73,7 +78,7 @@ if (testi.playNumber == 4)
     Serial.println("WINNER");
 //    testi.lcdObjekti.winner();
   }
-
+}
 
 
 }
