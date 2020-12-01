@@ -35,5 +35,9 @@ class game
                 void game3();                                   //Jani game       
 		// 3. game controller
 		int rotate();					//return value of direction
+		void guidePlayer(int a, int b);			//direction to second screen
+		void setTime();					//setting time to display on direction
+		int directionNum = 0;
+		int directionTable[10] = {0,1,2,1,3,0,3,1,2,0};	//directions for player
 };                                                                                                                                          
 #endif          

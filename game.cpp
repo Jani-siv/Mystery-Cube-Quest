@@ -230,8 +230,17 @@ void game::game3()
 			Serial.println("low");
 		}
 	//game code start here
+	//giving directions for player
+		if (game::directionNum < 10) 
+		{
+		game::guidePlayer(game::directionTable[game::directionNum],1);
+		}
+		if (game::directionNum == 10)
+		{
+			game::guidePlayer(4,0);
+		}
 	//Setting answer for debug
-	game::answer(1);
+	//game::answer(1);
 	//game finished after entering here
 	if ( debug == HIGH && game::buttonRelease == 0)       //This game is finished
 		{
@@ -333,7 +342,7 @@ void game::winner()
 }
 
 //3. game controller
-int rotate()
+int game::rotate()
 {
   	//sensorValueX jne. lukee mitä anturin X, Y ja Z näyttää
   	int sensorValueX = analogRead(A0);
@@ -384,4 +393,117 @@ int rotate()
     		//Up
         	return 4;
  	}
+}
+
+void game::guidePlayer(int a, int b)
+{
+	//set direction in table
+	int tableUp[7] = {0x55,0x50,0x20,0x20,0x20,0x20,0x20};
+	int tableRight[7] ={0x52,0x49,0x47,0x48,0x54,0x20,0x20};
+	int tableDown[7] ={0x44,0x4F,0x57,0x4E,0x20,0x20,0x20};
+	int tableLeft[7] ={0x4C,0x45,0x46,0x54,0x20,0x20,0x20};
+	//clear dispaly
+	//save old information
+	if (b == 1)
+	{
+	if (game::reserved == 0)
+	{
+		game::tempTable[0] = game::lcdObjekti.screenTable[0][0];
+        	game::tempTable[1] = game::lcdObjekti.screenTable[0][1];
+        	game::tempTable[2] = game::lcdObjekti.screenTable[0][2];
+        	game::tempTable[3] = game::lcdObjekti.screenTable[0][3];
+        	game::tempTable[4] = game::lcdObjekti.screenTable[0][4];
+        	game::tempTable[5] = game::lcdObjekti.screenTable[0][5];
+        	game::tempTable[6] = game::lcdObjekti.screenTable[0][6];
+		game::reserved = 1;
+	}
+	if (a == 0 && game::reserved == 1 && game::aikaInDisplay == 99)
+	{
+		game::lcdObjekti.screenTable[0][0] = tableUp[0];
+		game::lcdObjekti.screenTable[0][1] = tableUp[1];
+		game::lcdObjekti.screenTable[0][2] = tableUp[2];
+		game::lcdObjekti.screenTable[0][3] = tableUp[3];
+		game::lcdObjekti.screenTable[0][4] = tableUp[4];
+		game::lcdObjekti.screenTable[0][5] = tableUp[5];
+		game::lcdObjekti.screenTable[0][6] = tableUp[6];
+		game::lcdObjekti.printInScreen(1);
+		game::setTime();
+	}
+
+	if (a == 1 && game::reserved == 1 && game::aikaInDisplay == 99)
+	{
+		game::lcdObjekti.screenTable[0][0] = tableRight[0];
+		game::lcdObjekti.screenTable[0][1] = tableRight[1];
+		game::lcdObjekti.screenTable[0][2] = tableRight[2];
+		game::lcdObjekti.screenTable[0][3] = tableRight[3];
+		game::lcdObjekti.screenTable[0][4] = tableRight[4];
+		game::lcdObjekti.screenTable[0][5] = tableRight[5];
+		game::lcdObjekti.screenTable[0][6] = tableRight[6];
+		game::lcdObjekti.printInScreen(1);
+		game::setTime();
+	}
+
+	if (a == 2 && game::reserved == 1 && game::aikaInDisplay == 99)
+	{
+		game::lcdObjekti.screenTable[0][0] = tableDown[0];
+		game::lcdObjekti.screenTable[0][1] = tableDown[1];
+		game::lcdObjekti.screenTable[0][2] = tableDown[2];
+		game::lcdObjekti.screenTable[0][3] = tableDown[3];
+		game::lcdObjekti.screenTable[0][4] = tableDown[4];
+		game::lcdObjekti.screenTable[0][5] = tableDown[5];
+		game::lcdObjekti.screenTable[0][6] = tableDown[6];
+		game::lcdObjekti.printInScreen(1);
+		game::setTime();
+	}
+
+	if (a == 3 && game::reserved == 1 && game::aikaInDisplay == 99)
+	{
+		game::lcdObjekti.screenTable[0][0] = tableLeft[0];
+		game::lcdObjekti.screenTable[0][1] = tableLeft[1];
+		game::lcdObjekti.screenTable[0][2] = tableLeft[2];
+		game::lcdObjekti.screenTable[0][3] = tableLeft[3];
+		game::lcdObjekti.screenTable[0][4] = tableLeft[4];
+		game::lcdObjekti.screenTable[0][5] = tableLeft[5];
+		game::lcdObjekti.screenTable[0][6] = tableLeft[6];
+		game::lcdObjekti.printInScreen(1);
+		game::setTime();
+	}
+	//release for next direction after 2 seconds
+	if (game::aikaInDisplay >= game::aikaObjekti.aikaSec && game::aikaInDisplay != 99 )
+	{
+		game::aikaInDisplay = 99;
+		game::directionNum += 1;
+	}
+	}
+	//return screen information
+	if (b == 0 && a == 4)
+	{
+		game::reserved = 0;
+		game::aikaInDisplay = 99;
+	        game::lcdObjekti.screenTable[0][0] = game::tempTable[0];
+	        game::lcdObjekti.screenTable[0][1] = game::tempTable[1];
+	        game::lcdObjekti.screenTable[0][2] = game::tempTable[2];
+	        game::lcdObjekti.screenTable[0][3] = game::tempTable[3];
+	        game::lcdObjekti.screenTable[0][4] = game::tempTable[4];
+	        game::lcdObjekti.screenTable[0][5] = game::tempTable[5];
+	        game::lcdObjekti.screenTable[0][6] = game::tempTable[6];
+		game::lcdObjekti.printInScreen(1);
+	}
+}
+void game::setTime()
+{
+	if (game::aikaInDisplay == 99)
+	{
+		game::aikaInDisplay = game::aikaObjekti.aikaSec;
+			if ( game::aikaInDisplay < 2) 
+			{
+  				game::aikaInDisplay = 61 - game::aikaObjekti.aikaSec;
+  				game::aikaInDisplay -= 2;
+			}
+			if (game::aikaInDisplay >1 && game::aikaInDisplay < 60)
+			{
+  				game::aikaInDisplay = game::aikaObjekti.aikaSec;
+  				game::aikaInDisplay -=2;
+			}
+	}
 }
