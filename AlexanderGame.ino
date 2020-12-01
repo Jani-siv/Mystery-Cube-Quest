@@ -163,11 +163,12 @@ void peli1Funktio()
   randomTable[randomVariable] = randomArvo;
   
   
-  if(timer >= vaikeusAika && randomVariable < 5) 
+  if(timer >= vaikeusAika && randomVariable < 5 && led1 == 0 && 
+    led2 == 0 && led3 == 0 && led4 == 0) 
   {
     
     //If button 1 pressed: LED 1 lights up
-    if(randomArvo == 1 && led1 == 0) 
+    if(randomArvo == 1) 
     {
       digitalWrite(ledOut1, HIGH);
       led1 = 1;
@@ -179,7 +180,7 @@ void peli1Funktio()
     }
     
     //If button 2 pressed: LED 2 lights up
-    else if(randomArvo == 2 && led2 == 0) 
+    else if(randomArvo == 2) 
     {
       digitalWrite(ledOut2, HIGH);
       led2 = 1;
@@ -191,7 +192,7 @@ void peli1Funktio()
     }
     
     //If button 3 pressed: LED 3 lights up
-    else if(randomArvo == 3 && led3 == 0) 
+    else if(randomArvo == 3) 
     {
       digitalWrite(ledOut3, HIGH);
       led3 = 1;
@@ -203,7 +204,7 @@ void peli1Funktio()
     }
     
     //If button 4 pressed: LED 4 lights up
-    else if(randomArvo == 4 && led4 == 0)
+    else if(randomArvo == 4)
     {
       digitalWrite(ledOut4, HIGH);
       led4 = 1;
@@ -215,6 +216,13 @@ void peli1Funktio()
     }
   }
   
+  if(timer >= vaikeusAika*1.5) {
+    ledSetLow();
+    cli();
+    timerMillis1RANDOM = 0;
+    timerMillis1BUTTON = 0;
+    sei();
+  }
   
   //If time is 150ms and previously table (randomTable) is full->
   //-> Button position checking
