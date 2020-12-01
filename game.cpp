@@ -227,7 +227,6 @@ void game::game3()
 		if (debug == LOW && game::buttonRelease == 1)  //Stop going foward without relaesing button 
 		{
 			game::buttonRelease = 0;
-			Serial.println("low");
 		}
 	//game code start here
 	//giving directions for player
@@ -235,14 +234,18 @@ void game::game3()
 		{
 		game::guidePlayer(game::directionTable[game::directionNum],1);
 		}
-		if (game::directionNum == 10)
+		if (game::directionNum == 10 && game::movesCount < 10)
 		{
 			game::guidePlayer(4,0);
+			game::readControllerValue();
+			Serial.println(game::playerReturn[game::movesCount]);
 		}
+
 	//Setting answer for debug
 	//game::answer(1);
 	//game finished after entering here
-	if ( debug == HIGH && game::buttonRelease == 0)       //This game is finished
+	//if ( debug == HIGH && game::buttonRelease == 0)       //This game is finished
+		if (game::directionTable[0] == game::playerReturn[0] && game::directionTable[1] == game::playerReturn[1])
 		{
   			game::buttonRelease = 1;
   			game::playNumber = 4;
@@ -345,9 +348,9 @@ void game::winner()
 int game::rotate()
 {
   	//sensorValueX jne. lukee mitä anturin X, Y ja Z näyttää
-  	int sensorValueX = analogRead(A0);
-  	int sensorValueY = analogRead(A1);
-  	int sensorValueZ = analogRead(A2);
+  	int sensorValueX = analogRead(A1);
+  	int sensorValueY = analogRead(A2);
+  	int sensorValueZ = analogRead(A3);
 	float Ax = 0.0;
         float Ay = 0.0;
         float Az = 0.0;
@@ -372,28 +375,76 @@ int game::rotate()
   	DegZ = asin(Az / 9.81) * 180 / 3.141593;
                                                 
   	//Sen jälkeen kaikki arvot viedään näyttölle. Aika ja X,Y,Z akselit.
-                         
-  	if(DegX > 30) 
+  //Serial.println(DegX);
+  //Serial.println(DegY);
+  	if(DegX > 30 && DegY < 15 && DegY > -15) 
 	{
    	 	//left      
-        	return 1;
+		game::controllerOccy = 1;
+    game::setDirection = 1;
+   Serial.println("left");
+		return 3;
   	}
-  	if(DegX < -30) 
+  	if(DegX < -30 && DegY < 15 && DegY > -15) 
 	{
 		//right
-	     	return 2;
+		game::controllerOccy = 1;
+		game::setDirection = 1;
+		Serial.println("right");
+		return 1;
  	}
-  	if(DegY > 30) 
+  	if(DegY > 30 && DegX < 15 && DegX > -15) 
   	{
     		//Down
-        	return 3;
+		game::controllerOccy = 1;
+    game::setDirection = 1;
+   Serial.println("down");
+		return 2;
  	}
-  	if(DegY < -30) 
+  	if(DegY < -30 && DegX < 15 && DegX > -15) 
   	{
     		//Up
-        	return 4;
+        Serial.println("up");
+		game::controllerOccy = 1;
+    game::setDirection = 1;
+        	return 0;
  	}
+  if (DegY > -10 && DegY < 10 && DegX > -10 && DegX < 10 && game::setDirection == 1)
+  {
+    game::controllerOccy = 1;
+    game::setDirection = 0;
+    return 4;
+  }
+  else return 5;
+  
 }
+
+void game::readControllerValue()
+{
+  
+	if (game::controllerOccy == 0)
+	{
+		game::value = game::rotate();
+   Serial.println(game::value);
+		if (game::movesCount < 10 && game::value != 4 && game::value != 5 && game::setDirection == 1) {
+		game::playerReturn[game::movesCount] = game::value;
+   Serial.print("readControllerValue: ");
+   Serial.println(game::playerReturn[game::movesCount]);
+   
+		}
+	}
+ if (game::controllerOccy == 1 && setDirection == 1)
+ {
+  game::value = game::rotate();
+ }
+	if (game::controllerOccy == 1 && game::value == 4)
+	{
+		game::movesCount += 1;
+		game::controllerOccy = 0;
+	}
+}
+
+
 
 void game::guidePlayer(int a, int b)
 {

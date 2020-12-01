@@ -2,9 +2,7 @@
 #include "aika.h"
 #include "lcd.h"
 #include "game.h"
-    const int analogInPinX = A0;      //pin setup
-    const int analogInPinY = A1;
-    const int analogInPinZ = A2; 
+
 game testi;
 void setup() {
   // put your setup code here, to run once:
@@ -25,6 +23,9 @@ pinMode(testi.LCDOlio->enablePin, OUTPUT);
 pinMode(testi.LCDOlio->rsPin, OUTPUT);
 pinMode(testi.LCDOlio->enablePin2,OUTPUT);
 pinMode(testi.gameButton,INPUT);
+pinMode(A1,INPUT);
+pinMode(A2,INPUT);
+pinMode(A3,INPUT);
 
 }
 
@@ -58,7 +59,7 @@ if(testi.aikaObjekti.yleinenAika == true) {
 testi.game1();
 testi.game2();
 testi.game3();
-Serial.println(testi.aikaObjekti.aikaSec);
+//Serial.println(testi.aikaObjekti.aikaSec);
   }
 if (testi.playNumber == 4)
 {
