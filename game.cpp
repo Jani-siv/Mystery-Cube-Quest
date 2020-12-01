@@ -230,22 +230,24 @@ void game::game3()
 		}
 	//game code start here
 	//giving directions for player
-		if (game::directionNum < 10) 
+		if (game::directionNum < 5) 
 		{
 		game::guidePlayer(game::directionTable[game::directionNum],1);
 		}
-		if (game::directionNum == 10 && game::movesCount < 10)
+		if (game::directionNum == 4 && game::movesCount < 5)
 		{
 			game::guidePlayer(4,0);
 			game::readControllerValue();
-			Serial.println(game::playerReturn[game::movesCount]);
+      
+			//Serial.println(game::playerReturn[game::movesCount]);
 		}
 
 	//Setting answer for debug
 	//game::answer(1);
 	//game finished after entering here
-	//if ( debug == HIGH && game::buttonRelease == 0)       //This game is finished
-		if (game::directionTable[0] == game::playerReturn[0] && game::directionTable[1] == game::playerReturn[1])
+	//if ( debug == HIGH && game::buttonRelease == 0)       
+	//This game is finished
+		if (debug == HIGH && game::buttonRelease == 0 || game::directionTable[0] == game::playerReturn[0] && game::directionTable[1] == game::playerReturn[1] && game::directionTable[2] == game::playerReturn[2] && game::directionTable[3] == game::playerReturn[3])
 		{
   			game::buttonRelease = 1;
   			game::playNumber = 4;
@@ -253,6 +255,13 @@ void game::game3()
   			game::updateLocks(); //update locks in screen
   			game::roundNum = 3; //next game roundnumbers
 		}
+   //wrong answer
+	if (game::directionTable[0] == game::playerReturn[0] && game::movesCount == 4 || game::directionTable[1] != game::playerReturn[1] && game::movesCount == 4 || game::directionTable[2] != game::playerReturn[2] && game::movesCount == 4 || game::directionTable[3] != game::playerReturn[3] && game::movesCount == 4)
+ {
+  game::directionNum = 0;
+  game::movesCount = 0;
+  //wrong answer code here
+ }
 	}
 }
 
@@ -426,7 +435,7 @@ void game::readControllerValue()
 	{
 		game::value = game::rotate();
    Serial.println(game::value);
-		if (game::movesCount < 10 && game::value != 4 && game::value != 5 && game::setDirection == 1) {
+		if (game::movesCount < 5 && game::value != 4 && game::value != 5 && game::setDirection == 1) {
 		game::playerReturn[game::movesCount] = game::value;
    Serial.print("readControllerValue: ");
    Serial.println(game::playerReturn[game::movesCount]);
@@ -529,8 +538,7 @@ void game::guidePlayer(int a, int b)
 	//return screen information
 	if (b == 0 && a == 4)
 	{
-		game::reserved = 0;
-		game::aikaInDisplay = 99;
+
 	        game::lcdObjekti.screenTable[0][0] = game::tempTable[0];
 	        game::lcdObjekti.screenTable[0][1] = game::tempTable[1];
 	        game::lcdObjekti.screenTable[0][2] = game::tempTable[2];
@@ -539,6 +547,8 @@ void game::guidePlayer(int a, int b)
 	        game::lcdObjekti.screenTable[0][5] = game::tempTable[5];
 	        game::lcdObjekti.screenTable[0][6] = game::tempTable[6];
 		game::lcdObjekti.printInScreen(1);
+    game::reserved = 0;
+    game::aikaInDisplay = 99;
 	}
 }
 void game::setTime()

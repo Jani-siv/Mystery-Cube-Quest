@@ -38,12 +38,12 @@ class game
 		void guidePlayer(int a, int b);			//direction to second screen
 		void setTime();					//setting time to display on direction
 		int directionNum = 0;
-		int directionTable[10] = {0,2,0,1,3,0,3,1,2,0};	//directions for player
-		int playerReturn[10] =   {9,9,9,9,9,9,9,9,9,9};				//return value from player
+		int directionTable[5] = {0,2,0,1,3};	//directions for player
+		int playerReturn[5] =   {9,9,9,9,9};				//return value from player
 		int controllerOccy = 0;				//reading value
 		int movesCount = 0;
-    void readControllerValue();
-    int setDirection = 0;
-    int value = 0;
+    void readControllerValue();   //reading value from controller
+    int setDirection = 0;         //check
+    int value = 0;                //check
 };                                                                                                                                          
 #endif          
