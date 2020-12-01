@@ -31,7 +31,7 @@ int vaikeusAika = 0;  //<-- if (vaikeus == 0) {vaikeusAika = 300}, if (vaikeus =
 int vaikeusTarkistus = 0;
 int game1Rounds = 0;
 
-bool stopLed = true;
+bool stopLed = true; //<-- True = give premission to LEDs off when randomTable set LED to high
 
 //Tarkistukset, onko peli ja tarkoitetut funktiot päällä
 bool peli1ON        = false;
@@ -44,6 +44,7 @@ bool peli1ButtonON  = false;
 //Keskeytyksen muuttujat
 volatile unsigned long int timerMillis1RANDOM     = 0;
 volatile unsigned long int timerMillis1BUTTON     = 0;
+volatile unsigned long int timerMillis1LEDLOW     = 0;
 
 
 //Keskeytys funktio
@@ -157,9 +158,8 @@ void peli1Funktio()
   cli();
   int timer = timerMillis1RANDOM;
   int timerButton = timerMillis1BUTTON;
+  int timerLEDLOW = timerMillis1LEDLOW;
   sei();
-
-  Serial.println(timerButton);
 
 
   //In table sets random numbers
@@ -170,6 +170,7 @@ void peli1Funktio()
   if(timer >= vaikeusAika && randomVariable < 5 && led1 == 0 && 
     led2 == 0 && led3 == 0 && led4 == 0) 
   {
+
     
     //If button 1 pressed: LED 1 lights up
     if(randomArvo == 1) 
@@ -219,33 +220,35 @@ void peli1Funktio()
       sei();
     }
   }
+
+
+if(timer >= vaikeusAika * 1.5 && stopLed == true) {
+  if(randomVariable < 5) {
+  ledSetLow();
+  cli();
+  timerMillis1RANDOM = 0;
+  sei();
+  }
+  if(randomVariable == 5) {
+  ledSetLow();
+  stopLed = false;
+  cli();
+  timerMillis1RANDOM = 0;
+  sei();
+  }
+}
+
   
-  if(timer >= vaikeusAika*1.3 && randomVariable < 5) 
-  {
-    ledSetLow();
-    if(randomVariable == 4) {stopLed = false;}
-    cli();
-    timerMillis1RANDOM = 0;
-    sei();
-  }
-  if(timer >= vaikeusAika*1.3 && randomVariable == 5 && stopLed == false) {
-    ledSetLow();
-    stopLed = true;
-    cli();
-    timerMillis1RANDOM = 0;
-    sei();
-  }
   //If time is 150ms and previously table (randomTable) is full->
   //-> Button position checking
   //-> e.g if pressed button 2 and it's right, then it adds a +1 to the variable to continue table checking
   //-> If pressed button was not right then sets LED to LOW if it was HIGH, sets all variables = 0, and start again randomTable
   
   
-  if(timerButton >= 150)
+  if(timerButton >= 200 && randomVariable > 4)
   {
-    
-
-    
+    stopLed = true;
+    Serial.println("HI");
     //If pressed button 1:
     if(digitalRead(nappi1) == HIGH) 
     {
@@ -266,6 +269,7 @@ void peli1Funktio()
           
           ledSetLow();
           tableSet0();
+
           
           game1Rounds--;
           
@@ -296,7 +300,7 @@ void peli1Funktio()
           
           buttonVariable   = 1;
           randomVariable  = 1;
-           
+          
           ledSetLow();
           tableSet0();
           
@@ -330,9 +334,10 @@ void peli1Funktio()
           
           buttonVariable  = 1;
           randomVariable  = 1;
-            
+          
           ledSetLow();
           tableSet0();
+
           
           game1Rounds--;
         }
@@ -365,6 +370,7 @@ void peli1Funktio()
              
           ledSetLow();
           tableSet0();
+
           
           game1Rounds--;
         }
@@ -390,6 +396,7 @@ void peli1Funktio()
       buttonVariable = 1;
       ledSetLow();
       tableSet0();
+      stopLed = true;
     }
     
     
