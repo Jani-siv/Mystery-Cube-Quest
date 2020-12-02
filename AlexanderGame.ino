@@ -246,14 +246,12 @@ void peli1Funktio()
       }
   }
   
-  
-  // If time is 50ms and previously table (randomTable) is full->
-  //-> Button position checking
-  //-> e.g if pressed button 2 and it's right, then it adds a +1 to the variable to continue table checking
-  //-> If pressed button was not right then sets all variables = 1, and start again randomTable
-  
+    
 
-    stopLed = true;
+  
+    //-> Button position checking
+    //-> e.g if pressed button 2 and it's right, then it adds a +1 to the variable to continue table checking
+    //-> If pressed button was not right then sets all variables = 1, and start again randomTable
     
     
     //If pressed button 1:
@@ -268,7 +266,8 @@ void peli1Funktio()
         digitalWrite(ledOut1, HIGH);
         led1 = 1;
         nappi1Stop = 1;
-      
+        stopLed = true;
+        
         if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
         {
           if(vaikeus > 0) {vaikeus--; vaikeusTarkistus = 0;}
@@ -303,7 +302,8 @@ void peli1Funktio()
         digitalWrite(ledOut2, HIGH);
         led2 = 1;
         nappi2Stop = 1;
-            
+        stopLed = true;
+        
         if(buttonTable[buttonVariable] != randomTable[randomVariable]) 
         {
           if(vaikeus = 0) {vaikeusTarkistus = 0;}
@@ -339,7 +339,8 @@ void peli1Funktio()
         digitalWrite(ledOut3, HIGH);
         led3 = 1;
         nappi3Stop = 1;
-      
+        stopLed = true;
+        
         if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
         {
           if(vaikeus = 0) {vaikeusTarkistus = 0;}
@@ -377,7 +378,8 @@ void peli1Funktio()
         digitalWrite(ledOut4, HIGH);
         led4=1; 
         nappi4Stop = 1;
-      
+        stopLed = true;
+        
         if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
         {
           if(vaikeus = 0) {vaikeusTarkistus = 0;}
