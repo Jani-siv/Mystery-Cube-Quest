@@ -35,18 +35,17 @@ int buttonVariable  = 1;
 
 //Game difficulty
 int vaikeus = 0;
-int vaikeusAika = 0;  //<-- if (vaikeus == 0) {vaikeusAika = 300}, if (vaikeus == 1) {vaikeusAika = 200} etc.
+int vaikeusAika = 0;  //<-- if (vaikeus == 0) {vaikeusAika = 500}, if (vaikeus == 1) {vaikeusAika = 400} etc.
 int vaikeusTarkistus = 0;
 int game1Rounds = 0;
 
-bool stopLed = true; //<-- True = give premission to LEDs off when randomTable set LED to high
-bool timerStopON = true;
+bool timerStopON = true; // <-- if true- timer doesn't work, false- start timer
 
 
 //Keskeytyksen muuttujat
-volatile unsigned long int timerMillis1RANDOM     = 0;
-volatile unsigned long int timerMillis1BUTTON     = 0;
-//volatile unsigned long int timerMillis1LEDLOW   = 0;
+volatile unsigned long int timerMillis1RANDOM       = 0;
+//volatile unsigned long int timerMillis1BUTTON     = 0;
+//volatile unsigned long int timerMillis1LEDLOW     = 0;
 
 
 //Keskeytys funktio
@@ -82,8 +81,8 @@ void setup() {
     digitalWrite(ledOut4, LOW);
   
     //LoseLed
-    pinMode(loseLed, OUTPUT);
-    digitalWrite(loseLed, LOW);
+    //pinMode(loseLed, OUTPUT);
+//    digitalWrite(loseLed, LOW);
   
     //Nappit
     pinMode(nappi1, INPUT);
@@ -137,15 +136,15 @@ void peli1Funktio()
   //Game difficulty
   if(vaikeus == 0)
   {
-    vaikeusAika = 300;
+    vaikeusAika = 500;
   }
   else if(vaikeus == 1)
   {
-    vaikeusAika = 200;
+    vaikeusAika = 400;
   }
   else if(vaikeus == 2)
   {
-    vaikeusAika = 100;
+    vaikeusAika = 300;
   }
   
   
@@ -161,7 +160,7 @@ void peli1Funktio()
   randomTable[randomVariable] = randomArvo;
   
   if(randomVariable < 5) {
-  	cli();
+    cli();
     timerStopON = false;
     sei();
   }
@@ -226,10 +225,11 @@ void peli1Funktio()
   }
 
 
-  if(timerRANDOM >= vaikeusAika * 1.5 && stopLed == true)
+  else if(timerRANDOM >= vaikeusAika)
   {
       if(randomVariable < 5) 
       {
+        
         ledSetLow();
         cli();
         timerMillis1RANDOM = 0;
@@ -239,15 +239,16 @@ void peli1Funktio()
       if(randomVariable == 5) 
       {
         ledSetLow();
-        stopLed = false;
+        Serial.println("HI");
         cli();
-        timerStopON = true;
         timerMillis1RANDOM = 0;
+        timerStopON = true;
         sei();
       }
   }
   
     
+  Serial.println(timerRANDOM);
 
   
     //-> Button position checking
@@ -268,9 +269,14 @@ void peli1Funktio()
         digitalWrite(ledOut1, HIGH);
         led1 = 1;
         nappi1Stop = 1;
-        stopLed = true;
+
+        if(buttonTable[buttonVariable] == randomTable[buttonVariable]) 
+        {
+          buttonVariable++;
+          vaikeusTarkistus++;
+        }
         
-        if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
+        else if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
         {
           if(vaikeus > 0) {vaikeus--; vaikeusTarkistus = 0;}
           if(vaikeus == 0) {vaikeusTarkistus = 0;}
@@ -279,20 +285,16 @@ void peli1Funktio()
           
           cli();
           timerStopON = false;
-          timerRANDOM = 0;
+          timerMillis1RANDOM = 0;
           sei();
           
           buttonVariable   = 1;
           randomVariable   = 1;
-          ledSetLow();
+          
           tableSet0();
-          game1Rounds--;
-        }
-    
-        else if(buttonTable[buttonVariable] == randomTable[buttonVariable]) 
-        {
-          buttonVariable++;
-          vaikeusTarkistus++;
+          if(game1Rounds > 0) {
+            game1Rounds--;
+          }
         }
     }
     
@@ -301,8 +303,9 @@ void peli1Funktio()
     //If pressed button 2:
     if(digitalRead(nappi2) == LOW && nappi2Stop == 1) 
     {
-      nappi2Stop = 0;
       ledSetLow();
+      nappi2Stop = 0;
+      
     }
     else if(digitalRead(nappi2) == HIGH && nappi2Stop == 0) 
     {
@@ -310,31 +313,32 @@ void peli1Funktio()
         digitalWrite(ledOut2, HIGH);
         led2 = 1;
         nappi2Stop = 1;
-        stopLed = true;
+
+        if(buttonTable[buttonVariable] == randomTable[buttonVariable]) 
+        {
+          buttonVariable++;
+          vaikeusTarkistus++;
+        }
         
-        if(buttonTable[buttonVariable] != randomTable[randomVariable]) 
+        else if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
         {
           if(vaikeus = 0) {vaikeusTarkistus = 0;}
           if(vaikeus > 0) {vaikeus--; vaikeusTarkistus = 0;}
           if(vaikeusTarkistus > 0) {vaikeusTarkistus--;}
           if(vaikeusTarkistus == 0) {vaikeusTarkistus = 0;}
-          
+
           cli();
           timerStopON = false;
-          timerRANDOM = 0;
+          timerMillis1RANDOM = 0;
           sei();
           
           buttonVariable   = 1;
           randomVariable  = 1;
-          ledSetLow();
+          
           tableSet0();
-          game1Rounds--;
-        }
-      
-        else if(buttonTable[buttonVariable] == randomTable[buttonVariable]) 
-        {
-          buttonVariable++;
-          vaikeusTarkistus++;
+          if(game1Rounds > 0) {
+            game1Rounds--;
+          }
         }
      }
     
@@ -353,9 +357,15 @@ void peli1Funktio()
         digitalWrite(ledOut3, HIGH);
         led3 = 1;
         nappi3Stop = 1;
-        stopLed = true;
+
+              
+        if(buttonTable[buttonVariable] == randomTable[buttonVariable]) 
+        {
+          buttonVariable++;
+          vaikeusTarkistus++;
+        }
         
-        if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
+        else if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
         {
           if(vaikeus = 0) {vaikeusTarkistus = 0;}
           if(vaikeus > 0) {vaikeus--; vaikeusTarkistus = 0;}
@@ -364,20 +374,16 @@ void peli1Funktio()
           
           cli();
           timerStopON = false;
-          timerRANDOM = 0;
+          timerMillis1RANDOM = 0;
           sei();
           
           buttonVariable  = 1;
           randomVariable  = 1;
-          ledSetLow();
+          
           tableSet0();
-          game1Rounds--;
-        }
-      
-        else if(buttonTable[buttonVariable] == randomTable[buttonVariable]) 
-        {
-          buttonVariable++;
-          vaikeusTarkistus++;
+          if(game1Rounds > 0) {
+            game1Rounds--;
+          }
         }
      }
     
@@ -390,7 +396,7 @@ void peli1Funktio()
     if(digitalRead(nappi4) == LOW && nappi4Stop == 1) 
     {
         nappi4Stop = 0;
-      	ledSetLow();
+        ledSetLow();
     }
     else if(digitalRead(nappi4) == HIGH && nappi4Stop == 0) 
     {
@@ -398,10 +404,14 @@ void peli1Funktio()
         digitalWrite(ledOut4, HIGH);
         led4=1; 
         nappi4Stop = 1;
-        stopLed = true;
-     	
+      
+        if(buttonTable[buttonVariable] == randomTable[buttonVariable]) 
+        {
+          buttonVariable++;
+          vaikeusTarkistus++;
+        }
         
-        if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
+        else if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
         {
           if(vaikeus = 0) {vaikeusTarkistus = 0;}
           if(vaikeus > 0) {vaikeus--; vaikeusTarkistus = 0;}
@@ -410,20 +420,16 @@ void peli1Funktio()
           
           cli();
           timerStopON = false;
-          timerRANDOM = 0;
+          timerMillis1RANDOM = 0;
           sei();
           
           buttonVariable   = 1;
           randomVariable   = 1;
-          ledSetLow();
+          
           tableSet0();
-          game1Rounds--;
-        }
-      
-        else if(buttonTable[buttonVariable] == randomTable[buttonVariable]) 
-        {
-          buttonVariable++;
-          vaikeusTarkistus++;
+          if(game1Rounds > 0) {
+            game1Rounds--;
+          }
         }
      }
     
@@ -440,7 +446,6 @@ void peli1Funktio()
       buttonVariable = 1;
       ledSetLow();
       tableSet0();
-      stopLed = true;
       
       cli();
       timerStopON = false;
