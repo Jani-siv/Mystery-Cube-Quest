@@ -1,8 +1,8 @@
 //LED pinnien asetus
-const int ledOut1 = 2;
-const int ledOut2 = 3;
-const int ledOut3 = 4;
-const int ledOut4 = 5;
+const int ledOut1 = 30;
+const int ledOut2 = 32;
+const int ledOut3 = 34;
+const int ledOut4 = 36;
 const int loseLed = 10;
 
 //led tarkistus
@@ -11,12 +11,16 @@ int led2 = 0;
 int led3 = 0;
 int led4 = 0;
 
+//Random
+int randomArvo = random(1, 5);
+int timerRANDOM;
+int timerBUTTON;
 
 //BUTTON pinnien asetus
-const int nappi1 = 6;
-const int nappi2 = 7;
-const int nappi3 = 8;
-const int nappi4 = 9;
+const int nappi1 = 31;
+const int nappi2 = 33;
+const int nappi3 = 35;
+const int nappi4 = 37;
 //BUTTON stop painalus
 int nappi1Stop = 1;
 int nappi2Stop = 1;
@@ -155,8 +159,7 @@ void peli1Funktio()
   
   //Kopioidan keskeytyksen muuttujat, koska me tarvitaan oikeat arvot. Jos ne käytetään heti, tulee väärit arvot ja sekoitaa kaikki
   cli();
-  int timerRANDOM = timerMillis1RANDOM;
-  int timerBUTTON = timerMillis1BUTTON;
+  timerRANDOM = timerMillis1RANDOM;
   sei();
 
   //In table sets random numbers
@@ -242,7 +245,6 @@ void peli1Funktio()
         sei();
       }
   }
-
   
   
   // If time is 50ms and previously table (randomTable) is full->
@@ -250,8 +252,7 @@ void peli1Funktio()
   //-> e.g if pressed button 2 and it's right, then it adds a +1 to the variable to continue table checking
   //-> If pressed button was not right then sets all variables = 1, and start again randomTable
   
-  if(timerBUTTON >= 50 && randomVariable > 4)
-  {
+
     stopLed = true;
     
     
@@ -266,7 +267,7 @@ void peli1Funktio()
         buttonTable[buttonVariable] = 1;
         digitalWrite(ledOut1, HIGH);
         led1 = 1;
-      	nappi1Stop = 1;
+        nappi1Stop = 1;
       
         if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
         {
@@ -415,8 +416,4 @@ void peli1Funktio()
     }
     
     
-    cli();
-    timerMillis1BUTTON = 0;
-    sei();
-  }
 }
