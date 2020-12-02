@@ -1,9 +1,9 @@
 //LED pinnien asetus
-const int ledOut1 = 2;
-const int ledOut2 = 3;
-const int ledOut3 = 4;
-const int ledOut4 = 5;
-const int loseLed = 10;
+const int ledOut1 = 30;
+const int ledOut2 = 32;
+const int ledOut3 = 34;
+const int ledOut4 = 36;
+//const int loseLed = 10;
 
 //led tarkistus
 int led1 = 0;
@@ -16,10 +16,10 @@ int randomArvo = random(1, 5);
 int timerRANDOM;
 
 //BUTTON pinnien asetus
-const int nappi1 = 6;
-const int nappi2 = 7;
-const int nappi3 = 8;
-const int nappi4 = 9;
+const int nappi1 = 31;
+const int nappi2 = 33;
+const int nappi3 = 35;
+const int nappi4 = 37;
 //BUTTON stop painalus
 int nappi1Stop = 1;
 int nappi2Stop = 1;
