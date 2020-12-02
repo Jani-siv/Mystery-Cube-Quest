@@ -1,8 +1,8 @@
 //LED pinnien asetus
-const int ledOut1 = 30;
-const int ledOut2 = 32;
-const int ledOut3 = 34;
-const int ledOut4 = 36;
+const int ledOut1 = 2;
+const int ledOut2 = 3;
+const int ledOut3 = 4;
+const int ledOut4 = 5;
 const int loseLed = 10;
 
 //led tarkistus
@@ -14,13 +14,12 @@ int led4 = 0;
 //Random
 int randomArvo = random(1, 5);
 int timerRANDOM;
-int timerBUTTON;
 
 //BUTTON pinnien asetus
-const int nappi1 = 31;
-const int nappi2 = 33;
-const int nappi3 = 35;
-const int nappi4 = 37;
+const int nappi1 = 6;
+const int nappi2 = 7;
+const int nappi3 = 8;
+const int nappi4 = 9;
 //BUTTON stop painalus
 int nappi1Stop = 1;
 int nappi2Stop = 1;
@@ -41,14 +40,7 @@ int vaikeusTarkistus = 0;
 int game1Rounds = 0;
 
 bool stopLed = true; //<-- True = give premission to LEDs off when randomTable set LED to high
-
-//Tarkistukset, onko peli ja tarkoitetut funktiot päällä
-/*
-bool peli1ON        = false;
-bool peli1RandomON  = false;
-bool peli1ButtonON  = false;
-*/
-//Ei käytetty vielä
+bool timerStopON = true;
 
 
 //Keskeytyksen muuttujat
@@ -59,8 +51,9 @@ volatile unsigned long int timerMillis1BUTTON     = 0;
 
 //Keskeytys funktio
 ISR(TIMER0_COMPA_vect) {
+  if(timerStopON == false) {
     timerMillis1RANDOM++;
-    timerMillis1BUTTON++;
+  }
 }
 
 void setup() {
@@ -161,10 +154,17 @@ void peli1Funktio()
   cli();
   timerRANDOM = timerMillis1RANDOM;
   sei();
+  
 
   //In table sets random numbers
   int randomArvo = random(1, 5);
   randomTable[randomVariable] = randomArvo;
+  
+  if(randomVariable < 5) {
+  	cli();
+    timerStopON = false;
+    sei();
+  }
   
   //Starting give random numbers to randomTable
   if(timerRANDOM >= vaikeusAika 
@@ -241,6 +241,7 @@ void peli1Funktio()
         ledSetLow();
         stopLed = false;
         cli();
+        timerStopON = true;
         timerMillis1RANDOM = 0;
         sei();
       }
@@ -257,6 +258,7 @@ void peli1Funktio()
     //If pressed button 1:
     if(digitalRead(nappi1) == LOW && nappi1Stop == 1) 
     {
+      ledSetLow();
       nappi1Stop = 0;
     }
     
@@ -274,6 +276,11 @@ void peli1Funktio()
           if(vaikeus == 0) {vaikeusTarkistus = 0;}
           if(vaikeusTarkistus > 0) {vaikeusTarkistus--;}
           if(vaikeusTarkistus == 0) {vaikeusTarkistus = 0;}
+          
+          cli();
+          timerStopON = false;
+          timerRANDOM = 0;
+          sei();
           
           buttonVariable   = 1;
           randomVariable   = 1;
@@ -295,6 +302,7 @@ void peli1Funktio()
     if(digitalRead(nappi2) == LOW && nappi2Stop == 1) 
     {
       nappi2Stop = 0;
+      ledSetLow();
     }
     else if(digitalRead(nappi2) == HIGH && nappi2Stop == 0) 
     {
@@ -310,6 +318,11 @@ void peli1Funktio()
           if(vaikeus > 0) {vaikeus--; vaikeusTarkistus = 0;}
           if(vaikeusTarkistus > 0) {vaikeusTarkistus--;}
           if(vaikeusTarkistus == 0) {vaikeusTarkistus = 0;}
+          
+          cli();
+          timerStopON = false;
+          timerRANDOM = 0;
+          sei();
           
           buttonVariable   = 1;
           randomVariable  = 1;
@@ -331,6 +344,7 @@ void peli1Funktio()
     if(digitalRead(nappi3) == LOW && nappi3Stop == 1) 
     {
         nappi3Stop = 0;
+        ledSetLow();
     }
     
     else if(digitalRead(nappi3) == HIGH && nappi3Stop == 0) 
@@ -347,6 +361,11 @@ void peli1Funktio()
           if(vaikeus > 0) {vaikeus--; vaikeusTarkistus = 0;}
           if(vaikeusTarkistus > 0) {vaikeusTarkistus--;}
           if(vaikeusTarkistus == 0) {vaikeusTarkistus = 0;}
+          
+          cli();
+          timerStopON = false;
+          timerRANDOM = 0;
+          sei();
           
           buttonVariable  = 1;
           randomVariable  = 1;
@@ -371,6 +390,7 @@ void peli1Funktio()
     if(digitalRead(nappi4) == LOW && nappi4Stop == 1) 
     {
         nappi4Stop = 0;
+      	ledSetLow();
     }
     else if(digitalRead(nappi4) == HIGH && nappi4Stop == 0) 
     {
@@ -379,6 +399,7 @@ void peli1Funktio()
         led4=1; 
         nappi4Stop = 1;
         stopLed = true;
+     	
         
         if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
         {
@@ -386,6 +407,11 @@ void peli1Funktio()
           if(vaikeus > 0) {vaikeus--; vaikeusTarkistus = 0;}
           if(vaikeusTarkistus > 0) {vaikeusTarkistus--;}
           if(vaikeusTarkistus == 0) {vaikeusTarkistus = 0;}
+          
+          cli();
+          timerStopON = false;
+          timerRANDOM = 0;
+          sei();
           
           buttonVariable   = 1;
           randomVariable   = 1;
@@ -415,7 +441,10 @@ void peli1Funktio()
       ledSetLow();
       tableSet0();
       stopLed = true;
+      
+      cli();
+      timerStopON = false;
+      timerMillis1RANDOM = 0;
+      sei();
     }
-    
-    
 }
