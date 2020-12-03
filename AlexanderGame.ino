@@ -43,11 +43,11 @@ int vaikeusTarkistus = 0;
 int game1Rounds = 0;
 
 bool timerON       = false; // <-- if true- timer doesn't work, false- start timer
-bool timerUpdateON = false;
+bool timerUpdateON = false; // <-- In truth that don't work how it need to be, but it good working for timerON update :/
 
 //Keskeytyksen muuttujat
 volatile unsigned long int timerMillis1RANDOM       = 0;
-volatile unsigned long int timerMillis1UPDATE       = 0;
+volatile unsigned long int timerMillis1UPDATE       = 0; //does not work as it should
 
 
 //Keskeytys funktio
@@ -263,7 +263,9 @@ void peli1Funktio()
         sei();
       }
   }
-  
+
+
+//does not work as it should
   if(timerUPDATE >= 10000) {
     if(game1Rounds > 0) {
       game1Rounds--;
@@ -274,7 +276,6 @@ void peli1Funktio()
     
     cli();
     timerUpdateON = false;
-    timerMillis1UPDATE = 0;
     timerMillis1RANDOM = 0;
     timerON = true;
     sei();
@@ -283,23 +284,14 @@ void peli1Funktio()
     randomVariable = 1;
     buttonVariable = 1;
 
-
     ledSetLow();
     tableSet0();
-
   }
-  
-        Serial.print(timerRANDOM);
-    Serial.print("\t");
-    Serial.println(game1Rounds);
-    Serial.print(randomTable[1]);
-    Serial.print(randomTable[2]);
-    Serial.print(randomTable[3]);
-    Serial.print(randomTable[4]);
-    Serial.print(randomTable[5]);
-    Serial.println(randomTable[6]);
+//does not work as it should
 
-  
+
+ Serial.println(timerUPDATE);
+ 
     //-> Button position checking
     //-> e.g if pressed button 2 and it's right, then it adds a +1 to the variable to continue table checking
     //-> If pressed button was not right then sets all variables = 1, and start again randomTable
@@ -333,8 +325,7 @@ void peli1Funktio()
           cli();
           timerON = true;
           timerMillis1RANDOM = 0;
-          timerUpdateON = false;
-          timerMillis1UPDATE = 0;
+
           sei();
           
           buttonVariable   = 1;
@@ -377,8 +368,7 @@ void peli1Funktio()
           cli();
           timerON = true;
           timerMillis1RANDOM = 0;
-          timerUpdateON = false;
-          timerMillis1UPDATE = 0;
+
           sei();
           
           buttonVariable   = 1;
@@ -423,8 +413,7 @@ void peli1Funktio()
           cli();
           timerON = true;
           timerMillis1RANDOM = 0;
-          timerUpdateON = false;
-          timerMillis1UPDATE = 0;
+
           sei();
           
           buttonVariable  = 1;
@@ -469,8 +458,7 @@ void peli1Funktio()
           cli();
           timerON = true;
           timerMillis1RANDOM = 0;
-          timerUpdateON = false;
-          timerMillis1UPDATE = 0;
+
           sei();
           
           buttonVariable   = 1;
@@ -500,17 +488,14 @@ void peli1Funktio()
       cli();
       timerON = true;
       timerMillis1RANDOM = 0;
-      timerUpdateON = false;
-      timerMillis1UPDATE = 0;
+
       sei();
     }
 
     if(game1Rounds == 3) {
       cli();
       timerON = false;
-      timerUpdateON = false;
       timerMillis1RANDOM = 0;
-      timerMillis1UPDATE = 0;
       sei();
     }
 }
