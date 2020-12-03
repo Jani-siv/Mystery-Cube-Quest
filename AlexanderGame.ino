@@ -279,9 +279,7 @@ void peli1Funktio()
         else if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
         {
           if(vaikeus > 0) {vaikeus--; vaikeusTarkistus = 0;}
-          if(vaikeus == 0) {vaikeusTarkistus = 0;}
-          if(vaikeusTarkistus > 0) {vaikeusTarkistus--;}
-          if(vaikeusTarkistus == 0) {vaikeusTarkistus = 0;}
+          vaikeusTarkistus = 0;
           
           cli();
           timerStopON = false;
@@ -323,9 +321,7 @@ void peli1Funktio()
         else if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
         {
           if(vaikeus = 0) {vaikeusTarkistus = 0;}
-          if(vaikeus > 0) {vaikeus--; vaikeusTarkistus = 0;}
-          if(vaikeusTarkistus > 0) {vaikeusTarkistus--;}
-          if(vaikeusTarkistus == 0) {vaikeusTarkistus = 0;}
+          vaikeusTarkistus = 0;
 
           cli();
           timerStopON = false;
@@ -368,9 +364,7 @@ void peli1Funktio()
         else if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
         {
           if(vaikeus = 0) {vaikeusTarkistus = 0;}
-          if(vaikeus > 0) {vaikeus--; vaikeusTarkistus = 0;}
-          if(vaikeusTarkistus > 0) {vaikeusTarkistus--;}
-          if(vaikeusTarkistus == 0) {vaikeusTarkistus = 0;}
+          vaikeusTarkistus = 0;
           
           cli();
           timerStopON = false;
@@ -414,9 +408,7 @@ void peli1Funktio()
         else if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
         {
           if(vaikeus = 0) {vaikeusTarkistus = 0;}
-          if(vaikeus > 0) {vaikeus--; vaikeusTarkistus = 0;}
-          if(vaikeusTarkistus > 0) {vaikeusTarkistus--;}
-          if(vaikeusTarkistus == 0) {vaikeusTarkistus = 0;}
+          vaikeusTarkistus = 0;
           
           cli();
           timerStopON = false;
