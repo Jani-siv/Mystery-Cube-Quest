@@ -14,6 +14,7 @@ int led4 = 0;
 //Random
 int randomArvo = random(1, 5);
 int timerRANDOM;
+int timerUPDATE;
 
 //BUTTON pinnien asetus
 const int nappi1 = 31;
@@ -40,18 +41,20 @@ int vaikeusTarkistus = 0;
 int game1Rounds = 0;
 
 bool timerStopON = true; // <-- if true- timer doesn't work, false- start timer
-
+bool timerGameUpdate = false; // <-- Restart and give again random numbers, game1Rounds-- && vaikeus--
 
 //Keskeytyksen muuttujat
 volatile unsigned long int timerMillis1RANDOM       = 0;
-//volatile unsigned long int timerMillis1BUTTON     = 0;
-//volatile unsigned long int timerMillis1LEDLOW     = 0;
+volatile unsigned long int timerMillis1UPDATE       = 0;
 
 
 //Keskeytys funktio
 ISR(TIMER0_COMPA_vect) {
   if(timerStopON == false) {
     timerMillis1RANDOM++;
+  }
+  if(timerGameUpdate == true) {
+    timerMillis1UPDATE++;
   }
 }
 
@@ -152,6 +155,7 @@ void peli1Funktio()
   //Kopioidan keskeytyksen muuttujat, koska me tarvitaan oikeat arvot. Jos ne käytetään heti, tulee väärit arvot ja sekoitaa kaikki
   cli();
   timerRANDOM = timerMillis1RANDOM;
+  timerUPDATE = timerMillis1UPDATE;
   sei();
   
 
@@ -243,12 +247,28 @@ void peli1Funktio()
         cli();
         timerMillis1RANDOM = 0;
         timerStopON = true;
+        timerGameUpdate = true;
         sei();
       }
   }
   
+  
+  
+  if(timerUPDATE >= 5000) {
     
-  Serial.println(timerRANDOM);
+    ledSetLow();
+    tableSet0();
+    game1Rounds--;
+    vaikeus--;
+    vaikeusTarkistus = 0;
+    randomVariable = 1;
+    buttonVariable = 1;
+    
+    cli();
+    timerGameUpdate = false;
+    timerMillis1UPDATE = 0;
+    sei();
+  }
 
   
     //-> Button position checking
