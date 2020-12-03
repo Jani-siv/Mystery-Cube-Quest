@@ -16,6 +16,9 @@ int randomArvo = random(1, 5);
 int timerRANDOM;
 int timerUPDATE;
 
+bool stopRandom = true;
+bool stopUpdate = true;
+
 //BUTTON pinnien asetus
 const int nappi1 = 31;
 const int nappi2 = 33;
@@ -41,7 +44,7 @@ int vaikeusTarkistus = 0;
 int game1Rounds = 0;
 
 bool timerStopON = true; // <-- if true- timer doesn't work, false- start timer
-bool timerGameUpdate = false; // <-- Restart and give again random numbers, game1Rounds-- && vaikeus--
+//bool timerGameUpdate = false; // <-- Restart and give again random numbers, game1Rounds-- && vaikeus--
 
 //Keskeytyksen muuttujat
 volatile unsigned long int timerMillis1RANDOM       = 0;
@@ -52,9 +55,6 @@ volatile unsigned long int timerMillis1UPDATE       = 0;
 ISR(TIMER0_COMPA_vect) {
   if(timerStopON == false) {
     timerMillis1RANDOM++;
-  }
-  if(timerGameUpdate == true) {
-    timerMillis1UPDATE++;
   }
 }
 
@@ -155,7 +155,6 @@ void peli1Funktio()
   //Kopioidan keskeytyksen muuttujat, koska me tarvitaan oikeat arvot. Jos ne käytetään heti, tulee väärit arvot ja sekoitaa kaikki
   cli();
   timerRANDOM = timerMillis1RANDOM;
-  timerUPDATE = timerMillis1UPDATE;
   sei();
   
 
@@ -229,7 +228,7 @@ void peli1Funktio()
   }
 
 
-  else if(timerRANDOM >= vaikeusAika)
+  else if(timerRANDOM >= vaikeusAika && stopRandom == false)
   {
       if(randomVariable < 5) 
       {
@@ -244,29 +243,35 @@ void peli1Funktio()
       {
         ledSetLow();
         Serial.println("HI");
+        stopRandom = true;
+        stopUpdate = false;
+        
         cli();
         timerMillis1RANDOM = 0;
-        timerStopON = true;
-        timerGameUpdate = true;
         sei();
       }
   }
   
   
   
-  if(timerUPDATE >= 5000) {
+  if(timerRANDOM >= 5000 && stopUpdate == false) {
     
     ledSetLow();
     tableSet0();
-    game1Rounds--;
-    vaikeus--;
+    
+    if(game1Rounds > 0 ) {
+      game1Rounds--;
+    }
+    if(vaikeus > 0) {
+      vaikeus--;
+    }
     vaikeusTarkistus = 0;
     randomVariable = 1;
     buttonVariable = 1;
+    stopRandom = false;
     
     cli();
-    timerGameUpdate = false;
-    timerMillis1UPDATE = 0;
+    timerMillis1Random = 0;
     sei();
   }
 
