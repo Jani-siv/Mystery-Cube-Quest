@@ -14,24 +14,39 @@ Serial.begin(9600);
   sei();
 
 
-pinMode(testi.LCDOlio->clockPin, OUTPUT);
-pinMode(testi.LCDOlio->SRCLR, OUTPUT);
-pinMode(testi.LCDOlio->RCLK,OUTPUT);
-pinMode(testi.LCDOlio->SER, OUTPUT);
-pinMode(testi.LCDOlio->OE, OUTPUT);
-pinMode(testi.LCDOlio->enablePin, OUTPUT);
-pinMode(testi.LCDOlio->rsPin, OUTPUT);
-pinMode(testi.LCDOlio->enablePin2,OUTPUT);
-pinMode(testi.gameButton,INPUT);
-pinMode(A1,INPUT);
-pinMode(A2,INPUT);
-pinMode(A3,INPUT);
-
+	pinMode(testi.LCDOlio->clockPin, OUTPUT);
+	pinMode(testi.LCDOlio->SRCLR, OUTPUT);
+	pinMode(testi.LCDOlio->RCLK,OUTPUT);
+	pinMode(testi.LCDOlio->SER, OUTPUT);
+	pinMode(testi.LCDOlio->OE, OUTPUT);
+	pinMode(testi.LCDOlio->enablePin, OUTPUT);
+	pinMode(testi.LCDOlio->rsPin, OUTPUT);
+	pinMode(testi.LCDOlio->enablePin2,OUTPUT);
+	pinMode(testi.gameButton,INPUT);
+	pinMode(A1,INPUT);
+	pinMode(A2,INPUT);
+	pinMode(A3,INPUT);
+	pinMode(testi.ledOut1, OUTPUT);
+    	digitalWrite(testi.ledOut1, LOW);
+    	pinMode(testi.ledOut2, OUTPUT);
+    	digitalWrite(testi.ledOut2, LOW);
+    	pinMode(testi.ledOut3, OUTPUT);
+    	digitalWrite(testi.ledOut3, LOW);
+    	pinMode(testi.ledOut4, OUTPUT);
+    	digitalWrite(testi.ledOut4, LOW);
+     	pinMode(testi.nappi1, INPUT);
+    	pinMode(testi.nappi2, INPUT);
+    	pinMode(testi.nappi3, INPUT);
+    	pinMode(testi.nappi4, INPUT);
+	randomSeed(analogRead(0));
 }
 
 ISR (TIMER0_COMPA_vect) 
 {
   if(testi.aikaObjekti.yleinenAika == true) {
+  if(testi.timerON == true) {
+    timerMillis1RANDOM++;
+}
     testi.aikaObjekti.keskeytysMillis++;
   }
 }
