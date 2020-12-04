@@ -17,7 +17,7 @@ class aika
                 void yleinenAikaFunktio(LCD* objekti); 
                 debug var;
                 debug *variable = &var;//aika keskeytys
-    private:                                                                            
+                                                                            
                 int kymmin = 10;                                //pääkellon minuutit ja sekunnit
                 int minuutit = 0;                                                       
                 int kymsek = 0;                                                     

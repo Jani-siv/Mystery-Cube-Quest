@@ -91,5 +91,8 @@ class game
     void readControllerValue();   //reading value from controller
     int setDirection = 0;         //check
     int value = 0;                //check
+    void tableSet0();
+    void ledSetLow();
+    void peli1Funktio();
 };                                                                                                                                          
 #endif          

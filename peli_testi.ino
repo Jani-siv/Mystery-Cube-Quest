@@ -45,7 +45,7 @@ ISR (TIMER0_COMPA_vect)
 {
   if(testi.aikaObjekti.yleinenAika == true) {
   if(testi.timerON == true) {
-    timerMillis1RANDOM++;
+    testi.timerMillis1RANDOM++;
 }
     testi.aikaObjekti.keskeytysMillis++;
   }
