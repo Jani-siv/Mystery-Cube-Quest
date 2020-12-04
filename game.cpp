@@ -568,3 +568,530 @@ void game::setTime()
 			}
 	}
 }
+
+void game::tableSet0()
+{
+  game::randomTable[0] = 0;
+  game::randomTable[1] = 0;
+  game::randomTable[2] = 0;
+  game::randomTable[3] = 0;
+  game::randomTable[4] = 0;
+  game::randomTable[5] = 0;
+  game::randomTable[6] = 0;
+  game::randomTable[7] = 0;
+  
+  game::buttonTable[0] = 0;
+  game::buttonTable[1] = 0;
+  game::buttonTable[2] = 0;
+  game::buttonTable[3] = 0;
+  game::buttonTable[4] = 0;
+  game::buttonTable[5] = 0;
+  game::buttonTable[6] = 0;
+  game::buttonTable[7] = 0;
+}
+
+void game::ledSetLow() 
+{
+  digitalWrite(game::ledOut1, LOW);
+  game::led1 = 0;
+  digitalWrite(game::ledOut2, LOW);
+  game::led2 = 0;
+  digitalWrite(game::ledOut3, LOW);
+  game::led3 = 0;
+  digitalWrite(game::ledOut4, LOW);
+  game::led4 = 0;
+}
+
+void game::peli1Funktio() 
+{
+
+  //Game difficulty
+  if(game::vaikeus == 0)
+  {
+    game::vaikeusAika = 500;
+  }
+  else if(game::vaikeus == 1)
+  {
+    game::vaikeusAika = 400;
+  }
+  else if(game::vaikeus == 2)
+  {
+    game::vaikeusAika = 300;
+  }
+  else if(game::vaikeus == 3)
+  {
+    game::vaikeusAika = 200;
+  }
+  
+  
+
+
+//Kopioidan keskeytyksen muuttujat, koska me tarvitaan oikeat arvot. Jos ne käytetään heti, tulee väärit arvot ja sekoitaa kaikki
+  cli();
+  game::timerRANDOM = game::timerMillis1RANDOM;
+  game::timerUPDATE = game::timerMillis1UPDATE;
+  sei();
+  
+
+  //In table sets random numbers
+  game::randomArvo = random(1, 5);
+  game::randomTable[game::randomVariable] = game::randomArvo;
+  
+  if(game::randomVariable < 7) {
+    cli();
+    game::timerON = true;
+    sei();
+  }
+  
+  //Starting give random numbers to randomTable
+  if(game::timerRANDOM >= game::vaikeusAika 
+     && game::randomVariable < 7
+     && game::game1Rounds < 4 
+     && game::led1 == 0
+     && game::led2 == 0
+     && game::led3 == 0
+     && game::led4 == 0) 
+  { 
+    
+    //If random number = 1
+    if(game::randomArvo == 1)
+    {
+      digitalWrite(game::ledOut1, HIGH);
+      game::led1 = 1;
+      game::randomVariable++;
+      
+      cli();
+      game::timerMillis1RANDOM = 0;
+      sei();
+    }
+    
+    //If random number = 2  
+    else if(game::randomArvo == 2)
+    {
+      digitalWrite(game::ledOut2, HIGH);
+      game::led2 = 1;
+      game::randomVariable++;
+      
+      cli();
+      game::timerMillis1RANDOM = 0;
+      sei();
+    }
+    
+    //If random number = 3  
+    else if(game::randomArvo == 3)
+    {
+      digitalWrite(game::ledOut3, HIGH);
+      game::led3 = 1;
+      game::randomVariable++;
+      
+      cli();
+      game::timerMillis1RANDOM = 0;
+      sei();
+    }
+    
+    //If random number = 4  
+    else if(game::randomArvo == 4)
+    {
+      digitalWrite(game::ledOut4, HIGH);
+      game::led4 = 1;
+      game::randomVariable++;
+
+      cli();
+      game::timerMillis1RANDOM = 0;
+      sei();
+    }
+  }
+
+
+  else if(game::timerRANDOM >= game::vaikeusAika)
+  {
+      if(game::randomVariable < 7)
+      {
+
+        game::ledSetLow();
+        cli();
+        game::timerMillis1RANDOM = 0;
+        sei();
+      }
+
+      if(game::randomVariable == 7)
+      {
+        game::ledSetLow();
+
+
+        cli();
+        game::timerON = false;
+        game::timerMillis1RANDOM = 0;
+        game::timerUpdateON = true;
+        sei();
+      }
+  }
+
+
+//does not work as it should
+  if(game::timerUPDATE >= 10000) {
+    if(game::game1Rounds > 0) {
+      game::game1Rounds--;
+    }
+    if(game::vaikeus > 0) {
+      game::vaikeus--;
+    }
+
+    cli();
+    game::timerUpdateON = false;
+    game::timerMillis1RANDOM = 0;
+    game::timerON = true;
+    sei();
+
+    game::vaikeusTarkistus = 0;
+    game::randomVariable = 1;
+    game::buttonVariable = 1;
+
+    game::ledSetLow();
+    game::tableSet0();
+  }
+//does not work as it should
+
+
+ Serial.println(game::timerUPDATE);
+
+    //-> Button position checking
+    //-> e.g if pressed button 2 and it's right, then it adds a +1 to the variable to continue table checking
+    //-> If pressed button was not right then sets all variables = 1, and start again randomTable
+
+
+    //If pressed button 1:
+    if(digitalRead(game::nappi1) == LOW && game::nappi1Stop == 1)
+    {
+      game::ledSetLow();
+      game::nappi1Stop = 0;
+    }
+
+    if(digitalRead(game::nappi1) == HIGH && game::nappi1Stop == 0)
+    {
+        game::buttonTable[game::buttonVariable] = 1;
+        digitalWrite(game::ledOut1, HIGH);
+        game::led1 = 1;
+         game::timerMillis1RANDOM = 0;
+
+          sei();
+
+          game::buttonVariable   = 1;
+          game::randomVariable  = 1;
+
+          game::tableSet0();
+          if(game::game1Rounds > 0) {
+            game::game1Rounds--;
+          }
+        }
+     }
+
+
+
+
+    //If pressed button 3:
+    if(digitalRead(game::nappi3) == LOW && game::nappi3Stop == 1)
+    {
+        game::nappi3Stop = 0;
+        game::ledSetLow();
+    }
+
+    else if(digitalRead(game::nappi3) == HIGH && game::nappi3Stop == 0)
+    {
+        game::buttonTable[game::buttonVariable] = 3;
+        digitalWrite(game::ledOut3, HIGH);
+        game::led3 = 1;
+        game::nappi3Stop = 1;
+
+
+        if(game::buttonTable[game::buttonVariable] == game::randomTable[game::buttonVariable])
+        {
+          game::buttonVariable++;
+          game::vaikeusTarkistus++;
+        }
+
+        else if(game::buttonTable[game::buttonVariable] != game::randomTable[game::buttonVariable])
+        {
+          if(game::vaikeus > 0) {game::vaikeus--;}
+          game::vaikeusTarkistus = 0;
+
+          cli();
+          game::timerON = true;
+          game::timerMillis1RANDOM = 0;
+
+          sei();
+
+          game::buttonVariable  = 1;
+          game::randomVariable  = 1;
+
+          game::tableSet0();
+          if(game::game1Rounds > 0) {
+            game::game1Rounds--;
+          }
+        }
+     }
+
+
+
+
+
+
+    //If pressed button 4:
+    if(digitalRead(game::nappi4) == LOW && game::nappi4Stop == 1)
+    {
+        game::nappi4Stop = 0;
+        game::ledSetLow();
+    }
+    else if(digitalRead(game::nappi4) == HIGH && game::nappi4Stop == 0)
+    {
+        game::buttonTable[buttonVariable] = 4;
+        digitalWrite(game::ledOut4, HIGH);
+        game::led4=1;
+        game::nappi4Stop = 1;
+
+        if(game::buttonTable[game::buttonVariable] == game::randomTable[game::buttonVariable])
+        {
+          game::buttonVariable++;
+          game::vaikeusTarkistus++;
+        }
+
+        else if(game::buttonTable[game::buttonVariable] != game::randomTable[game::buttonVariable])
+        {
+          if(game::vaikeus > 0) {game::vaikeus--;}
+          game::vaikeusTarkistus = 0;
+
+          cli();
+          game::timerON = true;
+          game::timerMillis1RANDOM = 0;
+
+          sei();
+
+          game::buttonVariable   = 1;
+          game::randomVariable   = 1;
+
+          game::tableSet0();
+          if(game::game1Rounds > 0) {
+            game::game1Rounds--;
+          }
+        }
+     }
+
+    
+    //If buttonTable last position is same that last position randomTable ->
+    //-> Set table variables = 1, and all LED's to LOW
+    //-> And increases the difficulty of the game
+    if(game::vaikeusTarkistus == 6)
+    {
+      game::vaikeus++;
+      game::game1Rounds++;
+      game::vaikeusTarkistus = 0;
+      game::randomVariable = 1;
+      game::buttonVariable = 1;
+      game::ledSetLow();
+      game::tableSet0();
+      
+      cli();
+      game::timerON = true;
+      game::timerMillis1RANDOM = 0;
+
+      sei();
+    }
+
+    if(game::game1Rounds == 3) {
+      cli();
+      game::timerON = false;
+      game::timerMillis1RANDOM = 0;
+      sei();
+    }
+}
+       game::nappi1Stop = 1;
+
+        if(game::buttonTable[game::buttonVariable] == game::randomTable[game::buttonVariable])
+        {
+          game::buttonVariable++;
+          game::vaikeusTarkistus++;
+        }
+
+        else if(game::buttonTable[game::buttonVariable] != game::randomTable[game::buttonVariable])
+        {
+          if(game::vaikeus > 0) {game::vaikeus--;}
+          game::vaikeusTarkistus = 0;
+
+          cli();
+          game::timerON = true;
+          game::timerMillis1RANDOM = 0;
+
+          sei();
+
+          game::buttonVariable   = 1;
+          game::randomVariable   = 1;
+
+          game::tableSet0();
+          if(game::game1Rounds > 0) {
+            game::game1Rounds--;
+          }
+        }
+    }
+
+
+
+    //If pressed button 2:
+    if(game::digitalRead(game::nappi2) == LOW && game::nappi2Stop == 1)
+    {
+      game::ledSetLow();
+      game::nappi2Stop = 0;
+
+    }
+    else if(game::digitalRead(game::nappi2) == HIGH && game::nappi2Stop == 0)
+    {
+        game::buttonTable[game::buttonVariable] = 2;
+        digitalWrite(game::ledOut2, HIGH);
+        game::led2 = 1;
+        game::nappi2Stop = 1;
+
+        if(game::buttonTable[game::buttonVariable] == game::randomTable[game::buttonVariable])
+        {
+          game::buttonVariable++;
+          game::vaikeusTarkistus++;
+        }
+
+        else if(game::buttonTable[game::buttonVariable] != game::randomTable[game::buttonVariable])
+        {
+          if(game::vaikeus > 0) {game::vaikeus--;}
+          game::vaikeusTarkistus = 0;
+
+          cli();
+          game::timerON = true;
+  	  game::timerMillis1RANDOM = 0;
+
+          sei();
+
+          game::buttonVariable   = 1;
+          game::randomVariable  = 1;
+
+          game::tableSet0();
+          if(game::game1Rounds > 0) {
+            game::game1Rounds--;
+          }
+        }
+     }
+
+
+
+
+    //If pressed button 3:
+    if(digitalRead(game::nappi3) == LOW && game::nappi3Stop == 1)
+    {
+        game::nappi3Stop = 0;
+        game::ledSetLow();
+    }
+
+    else if(digitalRead(game::nappi3) == HIGH && game::nappi3Stop == 0)
+    {
+        game::buttonTable[game::buttonVariable] = 3;
+        digitalWrite(game::ledOut3, HIGH);
+        game::led3 = 1;
+        game::nappi3Stop = 1;
+
+
+        if(game::buttonTable[game::buttonVariable] == game::randomTable[game::buttonVariable])
+        {
+          game::buttonVariable++;
+          game::vaikeusTarkistus++;
+        }
+
+        else if(game::buttonTable[game::buttonVariable] != game::randomTable[game::buttonVariable])
+        {
+          if(game::vaikeus > 0) {game::vaikeus--;}
+          game::vaikeusTarkistus = 0;
+
+          cli();
+          game::timerON = true;
+          game::timerMillis1RANDOM = 0;
+
+          sei();
+
+          game::buttonVariable  = 1;
+          game::randomVariable  = 1;
+
+          game::tableSet0();
+          if(game::game1Rounds > 0) {
+            game::game1Rounds--;
+          }
+        }
+     }
+
+
+
+
+
+
+    //If pressed button 4:
+    if(digitalRead(game::nappi4) == LOW && game::nappi4Stop == 1)
+    {
+        game::nappi4Stop = 0;
+        game::ledSetLow();
+    }
+    else if(digitalRead(game::nappi4) == HIGH && game::nappi4Stop == 0)
+    {
+        game::buttonTable[game::buttonVariable] = 4;
+        game::digitalWrite(ledOut4, HIGH);
+        game::led4=1;
+        game::nappi4Stop = 1;
+
+        if(game::buttonTable[game::buttonVariable] == game::randomTable[game::buttonVariable])
+        {
+          game::buttonVariable++;
+          game::vaikeusTarkistus++;
+        }
+
+        else if(game::buttonTable[game::buttonVariable] != game::randomTable[game::buttonVariable])
+        {
+          if(game::vaikeus > 0) {game::vaikeus--;}
+          game::vaikeusTarkistus = 0;
+
+          cli();
+          game::timerON = true;
+          game::timerMillis1RANDOM = 0;
+
+          sei();
+
+          game::buttonVariable   = 1;
+          game::randomVariable   = 1;
+
+          game::tableSet0();
+          if(game::game1Rounds > 0) {
+            game::game1Rounds--;
+          }
+        }
+     }
+
+
+    //If buttonTable last position is same that last position randomTable ->
+    //-> Set table variables = 1, and all LED's to LOW
+    //-> And increases the difficulty of the game
+    if(game::vaikeusTarkistus == 6)
+    {
+      game::vaikeus++;
+      game::game1Rounds++;
+      game::vaikeusTarkistus = 0;
+      game::randomVariable = 1;
+      game::buttonVariable = 1;
+      game::ledSetLow();
+      game::tableSet0();
+
+      cli();
+      game::timerON = true;
+      game::timerMillis1RANDOM = 0;
+
+      sei();
+    }
+
+    if(game::game1Rounds == 3) {
+      cli();
+      game::timerON = false;
+      game::timerMillis1RANDOM = 0;
+      sei();
+    }
+}
+
