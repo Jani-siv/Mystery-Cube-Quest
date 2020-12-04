@@ -171,7 +171,7 @@ void peli1Funktio()
   
 
   //In table sets random numbers
-  int randomArvo = random(1, 5);
+  randomArvo = random(1, 5);
   randomTable[randomVariable] = randomArvo;
   
   if(randomVariable < 7) {
