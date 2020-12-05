@@ -63,8 +63,9 @@ class game
 		int timerRANDOM;
 		int timerUPDATE;
 		//Taulukko ja muuttujat
-		int randomTable[7];
-		int buttonTable[7];
+		int randomTable[11]; //<-- Max toistoja 10
+		int buttonTable[11];
+		int toistoja = 5; // <-- Voi muokata, paljonko toistoja 1 kierroksella. HUOM! 10 = 9;  9 = 8;  8 = 7; jne.
 		int randomVariable  = 1;
 		int buttonVariable  = 1;
 		//Game difficulty
@@ -72,12 +73,17 @@ class game
 		int vaikeusAika = 0;  //<-- if (vaikeus == 0) {vaikeusAika = 500}, if (vaikeus == 1) {vaikeusAika = 400} etc.
 		int vaikeusTarkistus = 0;
 		int game1Rounds = 0;
+		//Keskeytyksen tarkistus
 		bool timerON       = false; // <-- if true- timer doesn't work, false- start timer
 		bool timerUpdateON = false; // <-- In truth that don't work how it need to be, but it good working for timerON update :/
 		//Keskeytyksen muuttujat
 		volatile unsigned long int timerMillis1RANDOM       = 0;
-		volatile unsigned long int timerMillis1UPDATE       = 0; 
-
+		volatile unsigned long int timerMillis1UPDATE       = 0;
+		//Pause muuttujat
+		bool pauseBeforeRounds	= false;	//Pieni taukko ennen seurava kierros
+		bool wrongRound		= false;	//Jos kierros on väärin
+		bool winRound		= false;	//Jos kierros on oikein
+	
                 void game3();                                   //Jani game       
 		// 3. game controller
 		int rotate();					//return value of direction
