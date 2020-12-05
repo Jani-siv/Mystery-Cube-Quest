@@ -63,8 +63,8 @@ class game
 		int timerRANDOM;
 		int timerUPDATE;
 		//Taulukko ja muuttujat
-		int randomTable[11]; //<-- Max toistoja 10
-		int buttonTable[11];
+		int randomTable[12]; //<-- Max toistoja 10
+		int buttonTable[12];
 		int toistoja = 5; // <-- Voi muokata, paljonko toistoja 1 kierroksella. HUOM! 10 = 9;  9 = 8;  8 = 7; jne.
 		int randomVariable  = 1;
 		int buttonVariable  = 1;
