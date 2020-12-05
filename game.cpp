@@ -809,42 +809,41 @@ void game::peli1Funktio()
      }
 
     //If pressed button 2:
-    if(digitalRead(nappi2) == LOW && nappi2Stop == 1) 
+    if(digitalRead(game::nappi2) == LOW && game::nappi2Stop == 1) 
     {
-      ledSetLow();
-      nappi2Stop = 0;
+      game::ledSetLow();
+      game::nappi2Stop = 0;
       
     }
-    else if(digitalRead(nappi2) == HIGH && nappi2Stop == 0) 
+    else if(digitalRead(game::nappi2) == HIGH && game::nappi2Stop == 0) 
     {
-        buttonTable[buttonVariable] = 2;
-        digitalWrite(ledOut2, HIGH);
-        led2 = 1;
-        nappi2Stop = 1;
+        game::buttonTable[game::buttonVariable] = 2;
+        digitalWrite(game::ledOut2, HIGH);
+        game::led2 = 1;
+        game::nappi2Stop = 1;
 
-        if(buttonTable[buttonVariable] == randomTable[buttonVariable]) 
+        if(game::buttonTable[game::buttonVariable] == game::randomTable[game::buttonVariable]) 
         {
-          buttonVariable++;
-          vaikeusTarkistus++;
+          game::buttonVariable++;
+          game::vaikeusTarkistus++;
         }
         
-        else if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
+        else if(game::buttonTable[game::buttonVariable] != game::randomTable[game::buttonVariable]) 
         {
-          if(vaikeus > 0) {vaikeus--;}
-          vaikeusTarkistus = 0;
+          if(game::vaikeus > 0) {game::vaikeus--;}
+          game::vaikeusTarkistus = 0;
 
           cli();
-          timerON = true;
-          timerMillis1RANDOM = 0;
-
+          game::timerON = true;
+          game::timerMillis1RANDOM = 0;
           sei();
           
-          buttonVariable   = 1;
-          randomVariable  = 1;
+          game::buttonVariable   = 1;
+          game::randomVariable  = 1;
           
-          tableSet0();
-          if(game1Rounds > 0) {
-            game1Rounds--;
+          game::tableSet0();
+          if(game::game1Rounds > 0) {
+            game::game1Rounds--;
           }
         }
      }
