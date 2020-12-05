@@ -7,15 +7,15 @@ class game
         public:
                 //global settings
 		//LED pinnien asetus
-		const int ledOut1 = 30;				//Game 2
-		const int ledOut2 = 32;
-		const int ledOut3 = 34;
-		const int ledOut4 = 36;
+		const int ledOut1 = 16;//31;				//Game 2
+		const int ledOut2 = 17;
+		const int ledOut3 = 18;
+		const int ledOut4 = 19;
 		//BUTTON pinnien asetus
-		const int nappi1 = 31;
-		const int nappi2 = 33;
-		const int nappi3 = 35;
-		const int nappi4 = 37;	
+		const int nappi1 = 14;
+		const int nappi2 = 15;
+		const int nappi3 = 12;
+		const int nappi4 = 13;//24;	
 
 		int init = 0;                                   //is game initialized 1 = yes
                 int gameOver = 0;                               //game is over if 1

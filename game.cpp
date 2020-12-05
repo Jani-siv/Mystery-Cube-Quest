@@ -200,7 +200,14 @@ void game::game2()
 		{
   			game::buttonRelease = 0;
 		}
-		if ( debug == HIGH && game::buttonRelease == 0)
+
+   //game code here!!!
+     if(game::game1Rounds < 3) {
+    peli1Funktio();
+  }
+
+   
+		if ( debug == HIGH && game::buttonRelease == 0 || game::game1Rounds == 3)
 		{
   			//fast ending game
   			game::buttonRelease = 1;
@@ -962,4 +969,3 @@ void game::peli1Funktio()
       sei();
     }
 }
-
