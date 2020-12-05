@@ -99,6 +99,7 @@ class game
     int value = 0;                //check
     void tableSet0();
     void ledSetLow();
+    void ledSetHigh();
     void peli1Funktio();
 };                                                                                                                                          
 #endif          
