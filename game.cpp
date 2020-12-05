@@ -578,23 +578,10 @@ void game::setTime()
 
 void game::tableSet0()
 {
-  game::randomTable[0] = 0;
-  game::randomTable[1] = 0;
-  game::randomTable[2] = 0;
-  game::randomTable[3] = 0;
-  game::randomTable[4] = 0;
-  game::randomTable[5] = 0;
-  game::randomTable[6] = 0;
-  game::randomTable[7] = 0;
-  
-  game::buttonTable[0] = 0;
-  game::buttonTable[1] = 0;
-  game::buttonTable[2] = 0;
-  game::buttonTable[3] = 0;
-  game::buttonTable[4] = 0;
-  game::buttonTable[5] = 0;
-  game::buttonTable[6] = 0;
-  game::buttonTable[7] = 0;
+  for(int i = 0; i < game::toistoja; i++) {
+  	game::randomTable[i] = 0;
+	game::buttonTable[i] = 0;
+  }
 }
 
 void game::ledSetLow() 
@@ -607,6 +594,18 @@ void game::ledSetLow()
   game::led3 = 0;
   digitalWrite(game::ledOut4, LOW);
   game::led4 = 0;
+}
+
+void game::ledSetHigh()
+{
+  digitalWrite(game::ledOut1, HIGH);
+  game::led1 = 1;
+  digitalWrite(game::ledOut2, HIGH);
+  game::led2 = 1;
+  digitalWrite(game::ledOut3, HIGH);
+  game::led3 = 1;
+  digitalWrite(game::ledOut4, HIGH);
+  game::led4 = 1;
 }
 
 void game::peli1Funktio() 
@@ -644,7 +643,7 @@ void game::peli1Funktio()
   game::randomArvo = random(1, 5);
   game::randomTable[game::randomVariable] = game::randomArvo;
   
-  if(game::randomVariable < 7) {
+  if(game::randomVariable < game::toistoja) {
     cli();
     game::timerON = true;
     sei();
@@ -652,7 +651,7 @@ void game::peli1Funktio()
   
   //Starting give random numbers to randomTable
   if(game::timerRANDOM >= game::vaikeusAika 
-     && game::randomVariable < 7
+     && game::randomVariable < game::toistoja
      && game::game1Rounds < 4 
      && game::led1 == 0
      && game::led2 == 0
@@ -710,9 +709,9 @@ void game::peli1Funktio()
   }
 
 
-  else if(game::timerRANDOM >= game::vaikeusAika)
+  else if(game::timerRANDOM >= game::vaikeusAika && game::pauseBeforeRounds == false)
   {
-      if(game::randomVariable < 7)
+      if(game::randomVariable < game::toistoja)
       {
 
         game::ledSetLow();
@@ -721,7 +720,7 @@ void game::peli1Funktio()
         sei();
       }
 
-      if(game::randomVariable == 7)
+      if(game::randomVariable == game::toistoja)
       {
         game::ledSetLow();
 
@@ -768,48 +767,42 @@ void game::peli1Funktio()
 
 
     //If pressed button 1:
-    if(digitalRead(game::nappi1) == LOW && game::nappi1Stop == 1)
+    if(digitalRead(game::nappi1) == LOW && game::nappi1Stop == 1 && game::wrongRound == false)
     {
       game::ledSetLow();
       game::nappi1Stop = 0;
     }
 
-    if(digitalRead(game::nappi1) == HIGH && game::nappi1Stop == 0)
+    else if(digitalRead(game::nappi1) == HIGH && game::nappi1Stop == 0)
     {
         game::buttonTable[game::buttonVariable] = 1;
         digitalWrite(game::ledOut1, HIGH);
         game::led1 = 1;
- 	nappi1Stop = 1;
+ 	game::nappi1Stop = 1;
 
-        if(buttonTable[buttonVariable] == randomTable[buttonVariable]) 
+        if(game::buttonTable[game::buttonVariable] == game::randomTable[game::buttonVariable]) 
         {
-          buttonVariable++;
-          vaikeusTarkistus++;
+          game::buttonVariable++;
+          game::vaikeusTarkistus++;
         }
         
-        else if(buttonTable[buttonVariable] != randomTable[buttonVariable]) 
+        else if(game::buttonTable[game::buttonVariable] != game::randomTable[game::buttonVariable]) 
         {
-          if(vaikeus > 0) {vaikeus--;}
-          vaikeusTarkistus = 0;
+          
+	  game::ledSetHigh();
+	  game::pauseBeforeRounds	= true;
+	  game::wrongRound 		= true;
           
           cli();
-          timerON = true;
-	game::timerMillis1RANDOM = 0;
-
+          game::timerON = true;
+	  game::timerMillis1RANDOM = 0;
           sei();
 
-          game::buttonVariable   = 1;
-          game::randomVariable  = 1;
-
-          game::tableSet0();
-          if(game::game1Rounds > 0) {
-            game::game1Rounds--;
-          }
         }
      }
 
     //If pressed button 2:
-    if(digitalRead(game::nappi2) == LOW && game::nappi2Stop == 1) 
+    if(digitalRead(game::nappi2) == LOW && game::nappi2Stop == 1 && game::wrongRound == false) 
     {
       game::ledSetLow();
       game::nappi2Stop = 0;
@@ -830,21 +823,15 @@ void game::peli1Funktio()
         
         else if(game::buttonTable[game::buttonVariable] != game::randomTable[game::buttonVariable]) 
         {
-          if(game::vaikeus > 0) {game::vaikeus--;}
-          game::vaikeusTarkistus = 0;
+          
+	  game::pauseBeforeRounds	= true;
+	  game::wrongRound		= true;
+	  game::ledSetHigh();
 
           cli();
           game::timerON = true;
           game::timerMillis1RANDOM = 0;
           sei();
-          
-          game::buttonVariable   = 1;
-          game::randomVariable  = 1;
-          
-          game::tableSet0();
-          if(game::game1Rounds > 0) {
-            game::game1Rounds--;
-          }
         }
      }
 
@@ -854,7 +841,7 @@ void game::peli1Funktio()
 
 
     //If pressed button 3:
-    if(digitalRead(game::nappi3) == LOW && game::nappi3Stop == 1)
+    if(digitalRead(game::nappi3) == LOW && game::nappi3Stop == 1 && game::wrongRound == false)
     {
         game::nappi3Stop = 0;
         game::ledSetLow();
@@ -876,32 +863,24 @@ void game::peli1Funktio()
 
         else if(game::buttonTable[game::buttonVariable] != game::randomTable[game::buttonVariable])
         {
-          if(game::vaikeus > 0) {game::vaikeus--;}
-          game::vaikeusTarkistus = 0;
+          
+	  game::pauseBeforeRounds	= true;
+	  game::wrongRound		= true;
+	  game::ledSetHigh();
 
           cli();
           game::timerON = true;
           game::timerMillis1RANDOM = 0;
-
           sei();
 
-          game::buttonVariable  = 1;
-          game::randomVariable  = 1;
-
-          game::tableSet0();
-          if(game::game1Rounds > 0) {
-            game::game1Rounds--;
-          }
         }
      }
 
 
 
 
-
-
     //If pressed button 4:
-    if(digitalRead(game::nappi4) == LOW && game::nappi4Stop == 1)
+    if(digitalRead(game::nappi4) == LOW && game::nappi4Stop == 1 && game::wrongRound == false)
     {
         game::nappi4Stop = 0;
         game::ledSetLow();
@@ -910,7 +889,7 @@ void game::peli1Funktio()
     {
         game::buttonTable[buttonVariable] = 4;
         digitalWrite(game::ledOut4, HIGH);
-        game::led4=1;
+        game::led4 = 1;
         game::nappi4Stop = 1;
 
         if(game::buttonTable[game::buttonVariable] == game::randomTable[game::buttonVariable])
@@ -921,22 +900,15 @@ void game::peli1Funktio()
 
         else if(game::buttonTable[game::buttonVariable] != game::randomTable[game::buttonVariable])
         {
-          if(game::vaikeus > 0) {game::vaikeus--;}
-          game::vaikeusTarkistus = 0;
-
+          
+	  game::pauseBeforeRounds	= true;
+	  game::wrongRound		= true;
+	  game::ledSetHigh();
+	  
           cli();
           game::timerON = true;
           game::timerMillis1RANDOM = 0;
-
           sei();
-
-          game::buttonVariable   = 1;
-          game::randomVariable   = 1;
-
-          game::tableSet0();
-          if(game::game1Rounds > 0) {
-            game::game1Rounds--;
-          }
         }
      }
 
@@ -944,23 +916,41 @@ void game::peli1Funktio()
     //If buttonTable last position is same that last position randomTable ->
     //-> Set table variables = 1, and all LED's to LOW
     //-> And increases the difficulty of the game
-    if(game::vaikeusTarkistus == 6)
+    if(game::vaikeusTarkistus == game::toistoja - 1)
     {
-      game::vaikeus++;
-      game::game1Rounds++;
-      game::vaikeusTarkistus = 0;
-      game::randomVariable = 1;
-      game::buttonVariable = 1;
-      game::ledSetLow();
-      game::tableSet0();
-      
-      cli();
-      game::timerON = true;
-      game::timerMillis1RANDOM = 0;
-
-      sei();
+      	game::vaikeusTarkistus = 0;
+	game::pauseBeforeRounds = true;
+	game::winRound		= true;
+	
+	cli();
+	game::timerON = true;
+	game::timerMillis1RANDOM = 0;
+      	sei();
     }
 
+    if(game::pauseBeforeRounds == true && game::timerRANDOM >= 2000) {
+    	if(game::wrongRound == true) {
+		if(game::vaikeus > 0) {game::vaikeus--;}
+		if(game::game1Rounds > 0) {game::game1Rounds--;}
+	}
+	else if(game::winRound == true) {
+		game::vaikeus++;
+		game::game1Rounds++;
+	}
+	
+	game::ledSetLow();
+	game::tableSet0();
+	game::vaikeusTarkistus = 0;
+	game::randomVariable = 1;
+	game::buttonVariable = 1;
+	game::wrongRound 	= false;
+	game::winRound	 	= false;
+	game::pauseBeforeRounds = false;
+	
+	cli();
+	game::timerMillis1RANDOM = 0;
+	sei();
+    }
     if(game::game1Rounds == 3) {
       cli();
       game::timerON = false;
