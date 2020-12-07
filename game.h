@@ -17,12 +17,12 @@ class game
 		const int nappi3 = 12;
 		const int nappi4 = 13;//24;	
 
-		int init = 0;                                   //is game initialized 1 = yes
+		            int init = 0;                                   //is game initialized 1 = yes
                 int gameOver = 0;                               //game is over if 1
                 int startGame = 0;                              //push button to start game
                 int locks = 3;                                  //Amount of locks
                 int gameButton = 10;
-               
+                void resetGame();                               //reset whole game
 
 		int gameNumber[6] = {0x47,0x41,0x4D,0x45,0x20,0x30};    //game 
                 LCD lcdObjekti;                                 //instance of LCD class 
@@ -65,11 +65,11 @@ class game
 		//Taulukko ja muuttujat
 		int randomTable[12]; //<-- Max toistoja 10
 		int buttonTable[12];
-		int toistoja = 5; // <-- Voi muokata, paljonko toistoja 1 kierroksella. HUOM! 10 = 9;  9 = 8;  8 = 7; jne.
+		int toistoja = 6; // <-- Voi muokata, paljonko toistoja 1 kierroksella. HUOM! 10 = 9;  9 = 8;  8 = 7; jne.
 		int randomVariable  = 1;
 		int buttonVariable  = 1;
 		//Game difficulty
-		int vaikeus = 0;
+		int vaikeus = 3;
 		int vaikeusAika = 0;  //<-- if (vaikeus == 0) {vaikeusAika = 500}, if (vaikeus == 1) {vaikeusAika = 400} etc.
 		int vaikeusTarkistus = 0;
 		int game1Rounds = 0;
@@ -90,13 +90,13 @@ class game
 		void guidePlayer(int a, int b);			//direction to second screen
 		void setTime();					//setting time to display on direction
 		int directionNum = 0;
-		int directionTable[5] = {0,2,0,1,3};	//directions for player
+		int directionTable[5] = {0,2,3,1,3};	//directions for player
 		int playerReturn[5] =   {9,9,9,9,9};				//return value from player
 		int controllerOccy = 0;				//reading value
 		int movesCount = 0;
     void readControllerValue();   //reading value from controller
     int setDirection = 0;         //check
-    int value = 0;                //check
+    int value = 0;                //check  
     void tableSet0();
     void ledSetLow();
     void ledSetHigh();

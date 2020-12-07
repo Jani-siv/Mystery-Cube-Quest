@@ -224,6 +224,8 @@ void game::game3()
 {
 	if (game::playNumber == 3)
 	{
+    game::ledSetLow(); //if jump set all led low
+
 	  	//test is screen avaible
   		if (game::aikaInDisplay == 99 && game::reserved == 0)
   		{
@@ -291,8 +293,13 @@ void game::answer(int a)
 		game::aikaInDisplay = game::aikaObjekti.aikaSec;
 		if ( game::aikaInDisplay < 2) 
 		{
-  			game::aikaInDisplay = 61 - game::aikaObjekti.aikaSec;
-  			game::aikaInDisplay -= 2;
+      if (game::aikaInDisplay == 1) {
+  			game::aikaInDisplay = 59;
+      }
+      if (game::aikaInDisplay == 0); {
+        game::aikaInDisplay = 58;
+      }
+  		
 		}
 		if (game::aikaInDisplay >1 && game::aikaInDisplay < 60)
 		{
@@ -536,7 +543,7 @@ void game::guidePlayer(int a, int b)
 		game::setTime();
 	}
 	//release for next direction after 2 seconds
-	if (game::aikaInDisplay >= game::aikaObjekti.aikaSec && game::aikaInDisplay != 99 )
+	if (game::aikaInDisplay >= game::aikaObjekti.aikaSec && game::aikaInDisplay != 99 && game::aikaObjekti.aikaSec > 2)
 	{
 		game::aikaInDisplay = 99;
 		game::directionNum += 1;
@@ -560,20 +567,32 @@ void game::guidePlayer(int a, int b)
 }
 void game::setTime()
 {
+  Serial.print("ennen if: ");
+  Serial.println(game::aikaObjekti.aikaSec);
+  Serial.println(game::aikaInDisplay);
 	if (game::aikaInDisplay == 99)
 	{
+  Serial.println(game::aikaObjekti.aikaSec);
 		game::aikaInDisplay = game::aikaObjekti.aikaSec;
-			if ( game::aikaInDisplay < 2) 
-			{
-  				game::aikaInDisplay = 61 - game::aikaObjekti.aikaSec;
-  				game::aikaInDisplay -= 2;
-			}
-			if (game::aikaInDisplay >1 && game::aikaInDisplay < 60)
+
+     
+			if (game::aikaInDisplay >=2 && game::aikaInDisplay < 60)
 			{
   				game::aikaInDisplay = game::aikaObjekti.aikaSec;
   				game::aikaInDisplay -=2;
 			}
+          if ( game::aikaInDisplay < 2) 
+      {
+          game::aikaInDisplay = 58;
+        Serial.println(game::aikaInDisplay);
+
+      }
+     
 	}
+ Serial.println("If jälkeen");
+   Serial.println(game::aikaInDisplay);
+  Serial.println(game::aikaObjekti.aikaSec);
+
 }
 
 void game::tableSet0()
@@ -957,4 +976,43 @@ void game::peli1Funktio()
       game::timerMillis1RANDOM = 0;
       sei();
     }
+}
+
+void game::resetGame()
+{
+                 game::init = 0;                                   //is game initialized 1 = yes
+                 game::gameOver = 0;                               //game is over if 1
+                 game::startGame = 0;                              //push button to start game
+                 game::locks = 3;                                  //Amount of locks
+                 game::gameButton = 10; 
+                 game::buttonRelease = 1;                          // if button is realeased
+                 game::reserved = 0;                               //display occypyed 1
+                 game::aikaInDisplay = 99;                         //show answer in seconds
+                 game::roundNum = 3;                               //round number for games
+                 game::randNum = 15;
+                 game::playNumber = 1;
+                 game::led1 = 0;         //led check
+                 game::led2 = 0;  
+                 game::led3 = 0;
+                 game::led4 = 0;
+                 game::nappi1Stop = 1;       //button check
+                 game::nappi2Stop = 1;
+                 game::nappi3Stop = 1;
+                 game::nappi4Stop = 1;
+    game::randomVariable  = 1;
+    game::buttonVariable  = 1;
+    game::game1Rounds = 0;
+    game::timerON       = false; // <-- if true- timer doesn't work, false- start timer
+    game::timerUpdateON = false; // <-- In truth that don't work how it need to be, but it good working for timerON update :/
+    game::timerMillis1RANDOM       = 0;
+    game::timerMillis1UPDATE       = 0;
+    game::pauseBeforeRounds  = false;  //Pieni taukko ennen seurava kierros
+    game::wrongRound   = false;  //Jos kierros on väärin
+    game::winRound   = false;  //Jos kierros on oikein
+    game::directionNum = 0;
+    game::controllerOccy = 0;       //reading value
+    game::movesCount = 0;
+    game::setDirection = 0;         //check
+    game::value = 0;                //check
+    game::lcdObjekti.screenTable[0][5] = 0xA0;
 }

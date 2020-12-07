@@ -4,6 +4,9 @@
 #include "game.h"
 
 game testi;
+int stopbutton = 0;
+void(* resetFunc)(void) = 0;
+
 void setup() {
   // put your setup code here, to run once:
 Serial.begin(9600);
@@ -101,6 +104,17 @@ if (testi.playNumber == 4)
 if (testi.gameOver == 1)
 {
   testi.winner();
- 
+  button = digitalRead(testi.gameButton);
+  if ( button == LOW && stopbutton == 0)
+  {
+    stopbutton = 1;
+  }
+  if (button == HIGH && stopbutton == 1)
+  {
+    Serial.println("reset");
+    testi.resetGame();
+    stopbutton = 0;  
+  }
+  
 }
 }

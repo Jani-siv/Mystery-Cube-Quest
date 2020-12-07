@@ -27,7 +27,7 @@ void aika::yleinenAikaFunktio(LCD* objekti) {
       sei();                
     }                       
                             
-    cli();                  
+    cli();                    
     aika::keskeytysMillis = 0;
     sei();                  
                             

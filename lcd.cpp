@@ -173,6 +173,7 @@ void LCD::updateTime(int kymmin, int minuutit, int kymsek,int sekunnit) //time i
 {
 LCD::screenTable[0][11] = 0x30 + kymmin;
 LCD::screenTable[0][12] = 0x30 + minuutit;
+LCD::screenTable[0][13] = 0X3A;
 LCD::screenTable[0][14] = 0x30 + kymsek;
 LCD::screenTable[0][15] = 0x30 + sekunnit;
 LCD::printInScreen(1);
@@ -181,7 +182,7 @@ LCD::printInScreen(1);
 void LCD::selectScreen(int screen)
 {
 if (screen == 1)
-        {
+        {  
                 LCD::EnableLCD = LCD::enablePin;
         }
         if (screen == 2)
@@ -189,4 +190,3 @@ if (screen == 1)
                 LCD::EnableLCD = LCD::enablePin2;
         }
 }
-

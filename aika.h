@@ -21,12 +21,12 @@ class aika
                 int kymmin = 10;                                //pääkellon minuutit ja sekunnit
                 int minuutit = 0;                                                       
                 int kymsek = 0;                                                     
-                int sekunnit = 0;                                                   
+                int sekunnit = 0;                                                     
                                                                                     
                 
                 
                 int aikaMin = 10;                               //keskeytyksen aika minuuttia      
-                int aikaSec = 0;                                //keskeytyksen aika sekunttia      
+                int aikaSec = 5;                                //keskeytyksen aika sekunttia      
                 
                 unsigned long int millisFunktiossa = 0;
 };                                                                                                 
