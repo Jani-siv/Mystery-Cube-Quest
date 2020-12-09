@@ -1015,6 +1015,6 @@ void game::resetGame()
     game::setDirection = 0;         //check
     game::value = 0;                //check
     game::lcdObjekti.screenTable[0][5] = 0xA0;
-	game::aikaObjekti.aikaMin = 5;
+    game::aikaObjekti.aikaMin = 5;
     game:: aikaObjekti.aikaSec = 0;
 }

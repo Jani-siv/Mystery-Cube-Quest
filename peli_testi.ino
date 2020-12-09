@@ -91,6 +91,17 @@ if (testi.playNumber == 4)
   Serial.println("TIME UP");
   testi.aikaObjekti.yleinenAika = false;
   testi.outOfTime();
+  button = digitalRead(testi.gameButton);
+  if ( button == LOW && stopbutton == 0)
+  {
+    stopbutton = 1;
+  }
+  if (button == HIGH && stopbutton == 1)
+  {
+    Serial.println("reset");
+    testi.resetGame();
+    stopbutton = 0;  
+  }
   }
     if (testi.aikaObjekti.aikaSec > 0 && testi.gameOver == 1|| testi.aikaObjekti.aikaMin > 0 && testi.gameOver == 1)
   {
