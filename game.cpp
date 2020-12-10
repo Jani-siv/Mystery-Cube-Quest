@@ -151,20 +151,69 @@ void game::game1()
         {
 		//game number in screen
 		game::printGameNumber(1);
-        	//random number funktion in here and saved that to game::randNum
-		game::setNumberInScreen(game::randNum);
+
         	//button for whole game start up using only debug reason
 		int pushButton = digitalRead(game::gameButton);
         	if (pushButton == LOW && game::buttonRelease == 1)
         	{
           		game::buttonRelease = 0;
-        	}
+         		//set randNum
+			game::randNum = random(1,15);
+			//random number funktion in here and saved that to game::randNum
+			game::setNumberInScreen(game::randNum);       	
+		}
 		//testing is button released once before entry here
           	if (pushButton == HIGH && game::buttonRelease == 0)
           	{
+			//game code
+			game::vipu1_muuttuja = digitalRead(game::vipu1);
+        		game::vipu2_muuttuja = digitalRead(game::vipu2);
+        		game::vipu3_muuttuja = digitalRead(game::vipu3);
+        		game::vipu4_muuttuja = digitalRead(game::vipu4);
+
+        		if (game::vipu1_muuttuja == HIGH)
+        		{
+                		game::vipu1_muuttuja = 1;
+        		}
+        		if (game::vipu2_muuttuja == HIGH)
+        		{
+                		game::vipu2_muuttuja = 2;
+        		}
+        		if (game::vipu3_muuttuja == HIGH)
+        		{
+                		game::vipu3_muuttuja = 4;
+        		}
+        		if (game::vipu4_muuttuja == HIGH)
+        		{
+                		game::vipu4_muuttuja = 8;
+        		}
+        	game::total = game::vipu1_muuttuja + game::vipu2_muuttuja + game::vipu3_muuttuja + game::vipu4_muuttuja;
+        	//set all vipu to 0
+		game::vipu1_muuttuja = 0;
+		game::vipu2_muuttuja = 0;
+		game::vipu3_muuttuja = 0;
+		game::vipu4_muuttuja = 0;
+		//checking is answer correct
+		if (game::total == game::kysymys)
+        		{
+                		Serial.println("Oikein");
+				game::answer(1);
+                		game::kysymys = random(1,15);
+                		game::vastaus = 0;
+        		}
+        		else if (game::total != game::kysymys)
+        		{
+                		Serial.println("väärin, Aseta vipu kytkimet uudelleen");
+                		game::vastaus = 0;
+				game::answer(0);
+        		}
+		}
+	}
+
+
 			//game correct less rounds new random number and setting button to stop
             		game::roundNum--;
-            		randNum -= 5;
+            		//game::randNum -= 5;
             		game::buttonRelease = 1;
             	}
         
