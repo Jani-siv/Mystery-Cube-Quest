@@ -1081,4 +1081,18 @@ void game::resetGame()
     game::playerReturn[2] = 9;
     game::playerReturn[3] = 9;
     game::playerReturn[4] = 9;
+    game::lcdObjekti.screenTable[1][0] = 0x4C;
+    game::lcdObjekti.screenTable[1][1] = 0x4F;
+    game::lcdObjekti.screenTable[1][2] = 0x43; 
+    game::lcdObjekti.screenTable[1][3] = 0x4B;
+    game::lcdObjekti.screenTable[1][4] = 0x53;
+    game::lcdObjekti.screenTable[1][5] = 0x3A;
+    game::lcdObjekti.screenTable[1][6] = 0xA0;
+    game::lcdObjekti.screenTable[1][7] = 0xA0;
+    game::lcdObjekti.screenTable[1][8] = 0xA0;
+    game::lcdObjekti.screenTable[1][9] = 0xA0;
+    game::lcdObjekti.screenTable[1][10] = 0xA0;
+    game::lcdObjekti.screenTable[1][11] = 0xA0;
+    game::lcdObjekti.screenTable[1][12] = 0xA0;
+    game::lcdObjekti.screenTable[1][13] = 0xA0;
 }
