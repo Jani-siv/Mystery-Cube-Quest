@@ -43,10 +43,10 @@ class game
                 void printGameNumber(int num);            //print game number in screen
                 
 		void game1();                                   //jonin game
-		int vipu1 = 0;					//aseta pinni
-		int vipu2 = 0;					//aseta pinni
-		int vipu3 = 0;					//aseta pinni
-		int vipu4 = 0;					//aseta pinni
+		int vipu1 = 46;					//aseta pinni
+		int vipu2 = 44;					//aseta pinni
+		int vipu3 = 42;					//aseta pinni
+		int vipu4 = 40;					//aseta pinni
 		//variable for reading 
 		int vipu1_muuttuja = 0;				//variable from 
 		int vipu2_muuttuja = 0;
@@ -54,10 +54,11 @@ class game
 		int vipu4_muuttuja = 0;
 		int total = 0;
 		int kysymys = 0;
+    int vastaus;
 
 		int roundNum = 3;                               //round number for games
                 int randNum = 15;
-                int playNumber = 1;
+                int playNumber = 1;				//where to start game
                 
 		void game2();                                   //Alexander game 
 		//led tarkistus

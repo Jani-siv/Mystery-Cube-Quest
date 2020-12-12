@@ -41,6 +41,11 @@ Serial.begin(9600);
     	pinMode(testi.nappi2, INPUT);
     	pinMode(testi.nappi3, INPUT);
     	pinMode(testi.nappi4, INPUT);
+     //vipu kytkimet
+      pinMode(testi.vipu1, INPUT);
+      pinMode(testi.vipu2, INPUT);
+      pinMode(testi.vipu3, INPUT);
+      pinMode(testi.vipu4, INPUT);
 	randomSeed(analogRead(0));
 }
 

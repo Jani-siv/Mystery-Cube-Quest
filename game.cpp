@@ -150,7 +150,10 @@ void game::game1()
         if (game::playNumber == 1) //game number what to play
         {
 		//game number in screen
+   if(game::reserved == 0) 
+   { 
 		game::printGameNumber(1);
+		}
 
         	//button for whole game start up using only debug reason
 		int pushButton = digitalRead(game::gameButton);
@@ -194,16 +197,23 @@ void game::game1()
 		game::vipu3_muuttuja = 0;
 		game::vipu4_muuttuja = 0;
 		//checking is answer correct
-		if (game::total == game::kysymys)
+		if (game::total == game::randNum)
         		{
                 		Serial.println("Oikein");
 				game::answer(1);
                 		game::kysymys = random(1,15);
                 		game::vastaus = 0;
+                          //game correct less rounds new random number and setting button to stop
+                game::roundNum--;
+                //game::randNum -= 5;
+                game::buttonRelease = 1;
+                Serial.println(game::total);
         		}
-        		else if (game::total != game::kysymys)
+        		else if (game::total != game::randNum)
         		{
                 		Serial.println("väärin, Aseta vipu kytkimet uudelleen");
+                    Serial.println(game::total);
+                    Serial.println(game::randNum);
                 		game::vastaus = 0;
 				game::answer(0);
         		}
@@ -211,13 +221,9 @@ void game::game1()
 	}
 
 
-			//game correct less rounds new random number and setting button to stop
-            		game::roundNum--;
-            		//game::randNum -= 5;
-            		game::buttonRelease = 1;
-            	}
-        
-	}
+
+          
+	
 	//finishing game
 	if (game::roundNum <= 0 && game::playNumber == 1)
 	{
@@ -234,6 +240,7 @@ void game::game1()
   		game::roundNum = 3;
 		//refresh screen 1
   		game::lcdObjekti.printInScreen(1);
+      game::reserved = 0;
 	}
 }
 
@@ -264,6 +271,7 @@ void game::game2()
   			game::locks--;      //game finished update amount of locks
   			game::updateLocks(); //update locks in screen
   			game::roundNum = 3; //next game roundnumbers
+        
 		}
 
 	}
@@ -325,7 +333,7 @@ void game::game3()
 
 void game::answer(int a)
 {
-	if (game::aikaInDisplay == 99)      //first time pass setting values
+	if (game::aikaInDisplay == 99 && game::reserved == 0)      //first time pass setting values
   	{
   		//reserved display
 		game::reserved = 1;
@@ -337,6 +345,7 @@ void game::answer(int a)
         	game::tempTable[4] = game::lcdObjekti.screenTable[0][4];
         	game::tempTable[5] = game::lcdObjekti.screenTable[0][5];
 	        game::tempTable[6] = game::lcdObjekti.screenTable[0][6];
+          Serial.println("saving screen");
 
 		//set timing for display resevation
 		game::aikaInDisplay = game::aikaObjekti.aikaSec;
@@ -363,7 +372,7 @@ void game::answer(int a)
     		game::lcdObjekti.screenTable[0][0] = 0x57;  //W
     		game::lcdObjekti.screenTable[0][1] = 0x52;  //R
     		game::lcdObjekti.screenTable[0][2] = 0x4F;  //O
-    		game::lcdObjekti.screenTable[0][3] = 0x4D;  //N
+    		game::lcdObjekti.screenTable[0][3] = 0x4E;  //N
     		game::lcdObjekti.screenTable[0][4] = 0x47;  //G
     		if (game::aikaInDisplay != game::aikaObjekti.aikaSec && game::aikaInDisplay != 99)
 		{ 
@@ -387,6 +396,7 @@ void game::answer(int a)
   
   	if (game::aikaInDisplay >= game::aikaObjekti.aikaSec && game::aikaInDisplay != 99 )
 	{
+  Serial.println("Setting back original screen");
   	//set screen back original
   	game::aikaInDisplay = 99;
   	//return saved screen setup
@@ -454,7 +464,7 @@ int game::rotate()
    	 	//left      
 		game::controllerOccy = 1;
     game::setDirection = 1;
-   Serial.println("left");
+  // Serial.println("left");
 		return 3;
   	}
   	if(DegX < -30 && DegY < 15 && DegY > -15) 
@@ -462,7 +472,7 @@ int game::rotate()
 		//right
 		game::controllerOccy = 1;
 		game::setDirection = 1;
-		Serial.println("right");
+//		Serial.println("right");
 		return 1;
  	}
   	if(DegY > 30 && DegX < 15 && DegX > -15) 
@@ -470,13 +480,13 @@ int game::rotate()
     		//Down
 		game::controllerOccy = 1;
     game::setDirection = 1;
-   Serial.println("down");
+  // Serial.println("down");
 		return 2;
  	}
   	if(DegY < -30 && DegX < 15 && DegX > -15) 
   	{
     		//Up
-        Serial.println("up");
+    //    Serial.println("up");
 		game::controllerOccy = 1;
     game::setDirection = 1;
         	return 0;
@@ -1066,4 +1076,9 @@ void game::resetGame()
     game::lcdObjekti.screenTable[0][5] = 0xA0;
     game::aikaObjekti.aikaMin = 5;
     game:: aikaObjekti.aikaSec = 0;
+    game::playerReturn[0] = 9;
+    game::playerReturn[1] = 9;
+    game::playerReturn[2] = 9;
+    game::playerReturn[3] = 9;
+    game::playerReturn[4] = 9;
 }
